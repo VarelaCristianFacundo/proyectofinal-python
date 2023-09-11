@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import PresupuestoFormulario
+from .forms import PresupuestoFormulario, BusquedaPresupuestoForm
 from .models import Presupuesto, Cliente
 
 # Create your views here.
@@ -18,8 +18,20 @@ def presupuesto(req):
 
 
 def listar_presupuestos(req):
+    form = BusquedaPresupuestoForm()
     presupuestos = Presupuesto.objects.all()
-    return render(req, "listar_presupuestos.html", {"presupuestos": presupuestos})
+
+    if req.method == "POST":
+        form = BusquedaPresupuestoForm(req.POST)
+        if form.is_valid():
+            consulta = form.cleaned_data["consulta"]
+            presupuestos = Presupuesto.objects.filter(
+                servicio__icontains=consulta
+            )  # Filtrar por servicio (ajusta según tus necesidades)
+
+    return render(
+        req, "listar_presupuestos.html", {"presupuestos": presupuestos, "form": form}
+    )
 
 
 def presupuestoFormulario(req):

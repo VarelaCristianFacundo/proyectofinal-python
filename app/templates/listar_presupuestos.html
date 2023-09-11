@@ -8,6 +8,10 @@
   </head>
   <body>
     <h1>Listado de Presupuestos</h1>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Buscar</button>
+    </form>
     <table>
       <thead>
         <tr>

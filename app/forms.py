@@ -7,3 +7,7 @@ class PresupuestoFormulario(forms.Form):
     fechaDeEntrega = forms.DateField()
     cantidad = forms.IntegerField()
     cliente = forms.ModelChoiceField(queryset=Cliente.objects.all())
+
+
+class BusquedaPresupuestoForm(forms.Form):
+    consulta = forms.CharField(label="Buscar presupuesto", max_length=100)
