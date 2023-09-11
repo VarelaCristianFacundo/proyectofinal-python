@@ -17,6 +17,11 @@ def presupuesto(req):
     return render(req, "presupuestoFormulario.html")
 
 
+def listar_presupuestos(req):
+    presupuestos = Presupuesto.objects.all()
+    return render(req, "listar_presupuestos.html", {"presupuestos": presupuestos})
+
+
 def presupuestoFormulario(req):
     if req.method == "POST":
         presupuestoFormulario = PresupuestoFormulario(req.POST)
