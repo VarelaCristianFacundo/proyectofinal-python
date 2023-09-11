@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from .forms import PresupuestoFormulario, BusquedaPresupuestoForm
+from django.shortcuts import render, redirect
+from .forms import PresupuestoFormulario, BusquedaPresupuestoForm, SignupForm
 from .models import Presupuesto, Cliente
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login as auth_login
 
 # Create your views here.
 
@@ -15,6 +17,20 @@ def login(req):
 
 def presupuesto(req):
     return render(req, "presupuestoFormulario.html")
+
+
+def signup_view(request):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect(
+                "Home"
+            )  # Puedes redirigir al usuario a la página que desees después del registro
+    else:
+        form = SignupForm()
+    return render(request, "signup.html", {"form": form})
 
 
 def listar_presupuestos(req):
