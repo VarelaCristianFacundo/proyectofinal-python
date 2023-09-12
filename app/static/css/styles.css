@@ -94,6 +94,7 @@
 
 body {
   margin: 0;
+  padding: 0;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
@@ -103,6 +104,9 @@ body {
   background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 hr {
@@ -12651,7 +12655,7 @@ header.masthead {
 section a {
   display: inline-block;
   /* Hace que el enlace sea un bloque en línea */
-  padding: 10px 20px;
+  padding: 4px 20px;
   /* Agrega espacio alrededor del enlace para que parezca un botón */
   background-color: #007bff;
   /* Color de fondo del botón (puedes cambiarlo) */
@@ -12798,7 +12802,17 @@ header.masthead .h1 {
   opacity: 0.5;
 }
 
-footer.footer {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+
+.content {
+  flex: 1;
+  /* Agrega el contenido principal de tu página aquí */
+}
+
+.footer {
+  background-color: #f8f9fa;
+  /* Color de fondo del footer */
+  padding: 20px 0;
+  text-align: center;
+  margin-top: auto;
+  /* Empuja el footer hacia la parte inferior */
 }
