@@ -1,69 +1,80 @@
 {% extends 'home.html' %} {% block contenidoQueCambia %}
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Listado de Colaboradores</title>
-  </head>
-  <body>
-    <section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
-      <div
-        class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
-        style="width: 50%"
-      >
-        <div
-          class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+
+<section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
+  <div
+    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+    style="width: 50%"
+  >
+    <div
+      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+    >
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1
+          class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center"
         >
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1
-              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center"
-            >
-              Listado de Colaboradores Activos
-            </h1>
-            <form method="post" class="text-center">
-              {% csrf_token %}
-              <label for="colaborador">Selecciona un colaborador:</label>
-              <select name="colaborador" id="colaborador">
-                {% for colaborador in colaboradores %}
-                <option value="{{ colaborador.id }}">
-                  {{ colaborador.nombre }} {{ colaborador.apellido }}
-                </option>
-                {% endfor %}
-              </select>
-
-              <label for="presupuesto">Selecciona un presupuesto:</label>
-              <select name="presupuesto" id="presupuesto">
-                {% for presupuesto in presupuestos %}
-                <option value="{{ presupuesto.id }}">
-                  {{ presupuesto.servicio }}
-                </option>
-                {% endfor %}
-              </select>
-
-              <button type="submit">Asignar Presupuesto</button>
-            </form>
-            <table class="table mr-6 text-center">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for colaborador in colaboradores %}
-                <tr>
-                  <td>{{ colaborador.nombre }}</td>
-                  <td>{{ colaborador.apellido }}</td>
-                  <td>{{ colaborador.email }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
+          Listado de Colaboradores Activos
+        </h1>
+        <table class="table mr-6 text-center">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for colaborador in colaboradores %}
+            <tr>
+              <td>{{ colaborador.nombre }}</td>
+              <td>{{ colaborador.apellido }}</td>
+              <td>{{ colaborador.email }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-    </section>
-  </body>
-</html>
+    </div>
+  </div>
+</section>
+<section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
+  <div
+    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+    style="width: 50%"
+  >
+    <div
+      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+    >
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1
+          class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center"
+        >
+          Asignar Presupuesto a Colaborador
+        </h1>
+        <form method="post" class="text-center">
+          {% csrf_token %}
+          <label for="colaborador">Selecciona un colaborador:</label>
+          <select name="colaborador" id="colaborador">
+            {% for colaborador in colaboradores %}
+            <option value="{{ colaborador.id }}">
+              {{ colaborador.nombre }} {{ colaborador.apellido }}
+            </option>
+            {% endfor %}
+          </select>
+          <div class="m-2"></div>
+          <label for="presupuesto">Selecciona un presupuesto:</label>
+          <select name="presupuesto" id="presupuesto">
+            {% for presupuesto in presupuestos %}
+            <option value="{{ presupuesto.id }}">
+              {{ presupuesto.servicio }} - {{ presupuesto.cliente }} -
+              {{presupuesto.fechaDeEntrega}}
+            </option>
+            {% endfor %}
+          </select>
+          <div class="m-2"></div>
+          <button type="submit">Asignar Presupuesto</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock contenidoQueCambia %}

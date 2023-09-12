@@ -23,7 +23,10 @@
             </h1>
             <form method="post" class="text-center">
               {% csrf_token %} {{ form.as_p }}
-              <button type="submit">Buscar</button>
+              <button type="submit" class="btn btn-primary m-2">Buscar</button>
+              <a href="{% url 'ListarPresupuestos' %}" class="btn btn-secondary"
+                >Borrar Filtros</a
+              >
             </form>
             <hr />
             <table class="table text-center">

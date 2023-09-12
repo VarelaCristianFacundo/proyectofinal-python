@@ -12703,6 +12703,7 @@ section button:hover {
 [type=submit],
 button {
   background-color: #a52834 !important;
+  border: none;
 }
 
 

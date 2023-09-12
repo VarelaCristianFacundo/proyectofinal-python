@@ -8,6 +8,8 @@ from .forms import (
 from .models import Presupuesto, Cliente, Colaborador, AsignacionPresupuesto
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
+from django.db.models import Subquery, OuterRef
+
 
 # Create your views here.
 
@@ -46,12 +48,17 @@ def listar_presupuestos(req):
         form = BusquedaPresupuestoForm(req.POST)
         if form.is_valid():
             consulta = form.cleaned_data["consulta"]
-            presupuestos = Presupuesto.objects.filter(
-                servicio__icontains=consulta
-            )  # Filtrar por servicio (ajusta según tus necesidades)
+            presupuestos = Presupuesto.objects.filter(servicio__icontains=consulta)
+
+    if "borrar_filtros" in req.GET:
+        presupuestos = (
+            Presupuesto.objects.all()
+        )  # Obtener todos los presupuestos sin filtro
 
     return render(
-        req, "listar_presupuestos.html", {"presupuestos": presupuestos, "form": form}
+        req,
+        "listar_presupuestos.html",
+        {"presupuestos": presupuestos, "form": form},
     )
 
 
@@ -114,7 +121,10 @@ def eliminar_presupuesto(request, presupuesto_id):
 
 def listar_colaboradores(request):
     colaboradores = Colaborador.objects.all()
-    presupuestos = Presupuesto.objects.all()
+    presupuestos_asignados = AsignacionPresupuesto.objects.values("presupuesto_id")
+    presupuestos_disponibles = Presupuesto.objects.exclude(
+        id__in=Subquery(presupuestos_asignados)
+    )
 
     if request.method == "POST":
         colaborador_id = request.POST.get("colaborador")
@@ -124,19 +134,17 @@ def listar_colaboradores(request):
             colaborador = Colaborador.objects.get(pk=colaborador_id)
             presupuesto = Presupuesto.objects.get(pk=presupuesto_id)
 
-            # Crea una instancia de AsignacionPresupuesto y guárdala en la base de datos
             asignacion = AsignacionPresupuesto(
                 colaborador=colaborador, presupuesto=presupuesto
             )
             asignacion.save()
 
-            # Redirige o renderiza una respuesta después de realizar la asignación
             return redirect("ListarColaboradores")
 
     return render(
         request,
         "listar_colaboradores.html",
-        {"colaboradores": colaboradores, "presupuestos": presupuestos},
+        {"colaboradores": colaboradores, "presupuestos": presupuestos_disponibles},
     )
 
 
