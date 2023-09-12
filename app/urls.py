@@ -17,4 +17,5 @@ urlpatterns = [
         eliminar_presupuesto,
         name="EliminarPresupuesto",
     ),
+    path("colaboradores/", listar_colaboradores, name="ListarColaboradores"),
 ]

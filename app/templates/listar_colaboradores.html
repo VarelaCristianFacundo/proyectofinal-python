@@ -1,0 +1,36 @@
+{% extends 'home.html' %} {% block contenidoQueCambia %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Listado de Colaboradores</title>
+  </head>
+  <body>
+    <h1>Listado de Colaboradores Activos</h1>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Buscar</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for colaborador in colaboradores %}
+        <tr>
+          <td>{{ colaborador.nombre }}</td>
+          <td>{{ colaborador.apellido }}</td>
+          <td>{{ colaborador.email }}</td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </body>
+</html>
+{% endblock contenidoQueCambia %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import PresupuestoFormulario, BusquedaPresupuestoForm, SignupForm
-from .models import Presupuesto, Cliente
+from .forms import PresupuestoFormulario, BusquedaPresupuestoForm, SignupForm, BusquedaColaboradorForm
+from .models import Presupuesto, Cliente, Colaborador
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 
@@ -105,3 +105,21 @@ def eliminar_presupuesto(request, presupuesto_id):
         return redirect("ListarPresupuestos")
 
     return render(request, "eliminar_presupuesto.html", {"presupuesto": presupuesto})
+
+
+
+def listar_colaboradores(req):
+    form = BusquedaColaboradorForm()
+    colaboradores = Colaborador.objects.all()
+
+    if req.method == "POST":
+        form = BusquedaColaboradorForm(req.POST)
+        if form.is_valid():
+            consulta = form.cleaned_data["consulta"]
+            colaboradores = Colaborador.objects.filter(
+                apellido__icontains=consulta
+            )
+    return render(
+        req, "listar_colaboradores.html", {"colaboradores": colaboradores, "form": form}
+    )
+
