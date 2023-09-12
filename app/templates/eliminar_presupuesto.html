@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Eliminar Presupuesto</title>
+  </head>
+  <body>
+    <h1>Eliminar Presupuesto</h1>
+    <p>¿Estás seguro de que deseas eliminar este presupuesto?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Eliminar</button>
+      <a href="{% url 'ListarPresupuestos' %}">Cancelar</a>
+    </form>
+  </body>
+</html>

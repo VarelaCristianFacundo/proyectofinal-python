@@ -2,13 +2,13 @@ from django import forms
 from .models import Cliente
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Presupuesto
 
 
-class PresupuestoFormulario(forms.Form):
-    servicio = forms.CharField(max_length=40)
-    fechaDeEntrega = forms.DateField()
-    cantidad = forms.IntegerField()
-    cliente = forms.ModelChoiceField(queryset=Cliente.objects.all())
+class PresupuestoFormulario(forms.ModelForm):
+    class Meta:
+        model = Presupuesto
+        fields = ["servicio", "fechaDeEntrega", "cantidad", "entregado", "cliente"]
 
 
 class BusquedaPresupuestoForm(forms.Form):

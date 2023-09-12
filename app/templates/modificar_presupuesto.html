@@ -1,0 +1,16 @@
+<!-- modificar_presupuesto.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Modificar Presupuesto</title>
+  </head>
+  <body>
+    <h1>Modificar Presupuesto</h1>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Guardar Cambios</button>
+    </form>
+  </body>
+</html>

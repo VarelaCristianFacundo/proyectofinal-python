@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PresupuestoFormulario, BusquedaPresupuestoForm, SignupForm
 from .models import Presupuesto, Cliente
 from django.contrib.auth.forms import UserCreationForm
@@ -79,3 +79,29 @@ def presupuestoFormulario(req):
         "presupuestoFormulario.html",
         {"presupuestoFormulario": presupuestoFormulario},
     )
+
+
+# Vista para modificar un presupuesto
+def modificar_presupuesto(request, presupuesto_id):
+    presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
+
+    if request.method == "POST":
+        form = PresupuestoFormulario(request.POST, instance=presupuesto)
+        if form.is_valid():
+            form.save()
+            return redirect("ListarPresupuestos")
+    else:
+        form = PresupuestoFormulario(instance=presupuesto)
+
+    return render(request, "modificar_presupuesto.html", {"form": form})
+
+
+# Vista para confirmar y eliminar un presupuesto
+def eliminar_presupuesto(request, presupuesto_id):
+    presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
+
+    if request.method == "POST":
+        presupuesto.delete()
+        return redirect("ListarPresupuestos")
+
+    return render(request, "eliminar_presupuesto.html", {"presupuesto": presupuesto})

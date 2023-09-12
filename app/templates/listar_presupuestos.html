@@ -30,6 +30,15 @@
           <td>{{ presupuesto.entregado }}</td>
           <td>{{ presupuesto.cantidad }}</td>
           <td>{{ presupuesto.cliente }}</td>
+          <td>
+            <a href="{% url 'ModificarPresupuesto' presupuesto.id %}">Editar</a>
+          </td>
+
+          <td>
+            <a href="{% url 'EliminarPresupuesto' presupuesto.id %}"
+              >Eliminar</a
+            >
+          </td>
         </tr>
         {% endfor %}
       </tbody>
