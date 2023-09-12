@@ -36,19 +36,26 @@
             </form>
             {% if proyectos_asignados %}
             <h2 class="text-lg font-bold mt-4">Proyectos Asignados:</h2>
-            <ul>
-              {% for asignacion in proyectos_asignados %}
-              <li style="display: flex">
-                <p>{{ asignacion.presupuesto.servicio }}</p>
-                -
-                <p>{{ asignacion.presupuesto.fechaDeEntrega }}</p>
-                -
-                <p>{{ asignacion.presupuesto.cantidad }}</p>
-                -
-                <p>{{ asignacion.presupuesto.cliente }}</p>
-              </li>
-              {% endfor %}
-            </ul>
+            <table class="table mt-2">
+              <thead>
+                <tr>
+                  <th>Servicio</th>
+                  <th>Fecha de Entrega</th>
+                  <th>Cantidad</th>
+                  <th>Cliente</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for asignacion in proyectos_asignados %}
+                <tr>
+                  <td>{{ asignacion.presupuesto.servicio }}</td>
+                  <td>{{ asignacion.presupuesto.fechaDeEntrega }}</td>
+                  <td>{{ asignacion.presupuesto.cantidad }}</td>
+                  <td>{{ asignacion.presupuesto.cliente }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
             {% endif %}
           </div>
         </div>
