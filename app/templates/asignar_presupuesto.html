@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asignar Presupuesto</title>
+  </head>
+  <body>
+    <h1>Asignar Presupuesto a Colaborador</h1>
+
+    <form
+      method="post"
+      action="{% url 'AsignarPresupuesto' presupuesto.id colaborador.id %}"
+    >
+      {% csrf_token %}
+
+      <label for="colaborador">Selecciona un colaborador:</label>
+      <select name="colaborador" id="colaborador">
+        {% for colaborador in colaboradores %}
+        <option value="{{ colaborador.id }}">
+          {{ colaborador.nombre }} {{ colaborador.apellido }}
+        </option>
+        {% endfor %}
+      </select>
+
+      <br />
+
+      <input type="submit" value="Asignar Presupuesto" />
+    </form>
+
+    <a href="{% url 'DetallePresupuesto' presupuesto.id %}"
+      >Volver al Detalle del Presupuesto</a
+    >
+  </body>
+</html>

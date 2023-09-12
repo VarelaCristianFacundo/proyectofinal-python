@@ -5,7 +5,7 @@ from .forms import (
     SignupForm,
     BusquedaColaboradorForm,
 )
-from .models import Presupuesto, Cliente, Colaborador
+from .models import Presupuesto, Cliente, Colaborador, AsignacionPresupuesto
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 
@@ -112,15 +112,63 @@ def eliminar_presupuesto(request, presupuesto_id):
     return render(request, "eliminar_presupuesto.html", {"presupuesto": presupuesto})
 
 
-def listar_colaboradores(req):
-    form = BusquedaColaboradorForm()
+def listar_colaboradores(request):
     colaboradores = Colaborador.objects.all()
+    presupuestos = Presupuesto.objects.all()
 
-    if req.method == "POST":
-        form = BusquedaColaboradorForm(req.POST)
-        if form.is_valid():
-            consulta = form.cleaned_data["consulta"]
-            colaboradores = Colaborador.objects.filter(apellido__icontains=consulta)
+    if request.method == "POST":
+        colaborador_id = request.POST.get("colaborador")
+        presupuesto_id = request.POST.get("presupuesto")
+
+        if colaborador_id and presupuesto_id:
+            colaborador = Colaborador.objects.get(pk=colaborador_id)
+            presupuesto = Presupuesto.objects.get(pk=presupuesto_id)
+
+            # Crea una instancia de AsignacionPresupuesto y guárdala en la base de datos
+            asignacion = AsignacionPresupuesto(
+                colaborador=colaborador, presupuesto=presupuesto
+            )
+            asignacion.save()
+
+            # Redirige o renderiza una respuesta después de realizar la asignación
+            return redirect("ListarColaboradores")
+
     return render(
-        req, "listar_colaboradores.html", {"colaboradores": colaboradores, "form": form}
+        request,
+        "listar_colaboradores.html",
+        {"colaboradores": colaboradores, "presupuestos": presupuestos},
+    )
+
+
+def asignar_presupuesto(request, presupuesto_id, colaborador_id):
+    presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
+    colaborador = get_object_or_404(Colaborador, id=colaborador_id)
+
+    # Verifica si la asignación ya existe
+    asignacion_existente = Asignacion.objects.filter(
+        presupuesto=presupuesto, colaborador=colaborador
+    ).exists()
+
+    if not asignacion_existente:
+        asignacion = Asignacion(presupuesto=presupuesto, colaborador=colaborador)
+        asignacion.save()
+
+    # Redirecciona
+    return redirect("ListarPresupuestos")
+
+
+def proyectos_asignados(request):
+    colaboradores = Colaborador.objects.all()
+    proyectos_asignados = {}
+
+    if request.method == "POST":
+        colaborador_id = request.POST.get("colaborador")
+        if colaborador_id:
+            colaborador = Colaborador.objects.get(id=colaborador_id)
+            proyectos_asignados = colaborador.asignacionpresupuesto_set.all()
+
+    return render(
+        request,
+        "proyectos_asignados.html",
+        {"colaboradores": colaboradores, "proyectos_asignados": proyectos_asignados},
     )

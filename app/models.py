@@ -38,3 +38,11 @@ class Colaborador(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.apellido}"
+
+
+class AsignacionPresupuesto(models.Model):
+    colaborador = models.ForeignKey(Colaborador, on_delete=models.CASCADE)
+    presupuesto = models.ForeignKey(Presupuesto, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Asignación de Presupuesto: {self.colaborador} - {self.presupuesto}"

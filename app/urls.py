@@ -18,4 +18,10 @@ urlpatterns = [
         name="EliminarPresupuesto",
     ),
     path("colaboradores/", listar_colaboradores, name="ListarColaboradores"),
+    path(
+        "asignar_presupuesto/<int:presupuesto_id>/<int:colaborador_id>/",
+        asignar_presupuesto,
+        name="AsignarPresupuesto",
+    ),
+    path("proyectos_asignados/", proyectos_asignados, name="proyectos_asignados"),
 ]
