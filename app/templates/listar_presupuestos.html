@@ -1,82 +1,72 @@
 {% extends 'home.html' %} {% block contenidoQueCambia %}
-
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Listado de Presupuestos</title>
-  </head>
-  <body>
-    <section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
-      <div
-        class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
-        style="width: 50%"
-      >
-        <div
-          class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+<section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
+  <div
+    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+    style="width: 50%"
+  >
+    <div
+      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+    >
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1
+          class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center"
         >
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1
-              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center"
-            >
-              Listado de Presupuestos
-            </h1>
-            <form method="post" class="text-center">
-              {% csrf_token %} {{ form.as_p }}
-              <button type="submit" class="btn btn-primary m-2">Buscar</button>
-              <a href="{% url 'ListarPresupuestos' %}" class="btn btn-secondary"
-                >Borrar Filtros</a
-              >
-            </form>
-            <hr />
-            <table class="table text-center">
-              <thead>
-                <tr>
-                  <th>Servicio</th>
-                  <th>Fecha de Entrega</th>
-                  <th>Entregado</th>
-                  <th>Cantidad</th>
-                  <th>Cliente</th>
-                  <th class="editar">
-                    <span class="editar-icon">&#9998;</span>
-                  </th>
-                  <th class="eliminar">
-                    <span class="eliminar-icon">&#128465;</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for presupuesto in presupuestos %}
-                <tr>
-                  <td>{{ presupuesto.servicio }}</td>
-                  <td>{{ presupuesto.fechaDeEntrega }}</td>
-                  <td>{{ presupuesto.entregado }}</td>
-                  <td>{{ presupuesto.cantidad }}</td>
-                  <td>{{ presupuesto.cliente }}</td>
-                  <td>
-                    <a href="{% url 'ModificarPresupuesto' presupuesto.id %}"
-                      >Editar</a
-                    >
-                  </td>
+          Listado de Presupuestos
+        </h1>
+        <form method="post" class="text-center">
+          {% csrf_token %} {{ form.as_p }}
+          <button type="submit" class="btn btn-primary m-2">Buscar</button>
+          <a href="{% url 'ListarPresupuestos' %}" class="btn btn-secondary"
+            >Borrar Filtros</a
+          >
+        </form>
+        <hr />
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th>Servicio</th>
+              <th>Fecha de Entrega</th>
+              <th>Entregado</th>
+              <th>Cantidad</th>
+              <th>Cliente</th>
+              <th class="editar">
+                <span class="editar-icon">&#9998;</span>
+              </th>
+              <th class="eliminar">
+                <span class="eliminar-icon">&#128465;</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for presupuesto in presupuestos %}
+            <tr>
+              <td>{{ presupuesto.servicio }}</td>
+              <td>{{ presupuesto.fechaDeEntrega }}</td>
+              <td>{{ presupuesto.entregado }}</td>
+              <td>{{ presupuesto.cantidad }}</td>
+              <td>{{ presupuesto.cliente }}</td>
+              <td>
+                <a href="{% url 'ModificarPresupuesto' presupuesto.id %}"
+                  >Editar</a
+                >
+              </td>
 
-                  <td>
-                    <a href="{% url 'EliminarPresupuesto' presupuesto.id %}"
-                      >Eliminar</a
-                    >
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-            <a
-              style="display: flex; justify-content: center"
-              href="{% url 'PresupuestoFormulario' %}"
-              >Crear un nuevo presupuesto</a
-            >
-          </div>
-        </div>
+              <td>
+                <a href="{% url 'EliminarPresupuesto' presupuesto.id %}"
+                  >Eliminar</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <a
+          style="display: flex; justify-content: center"
+          href="{% url 'PresupuestoFormulario' %}"
+          >Crear un nuevo presupuesto</a
+        >
       </div>
-    </section>
-  </body>
-</html>
+    </div>
+  </div>
+</section>
 {% endblock contenidoQueCambia %}
