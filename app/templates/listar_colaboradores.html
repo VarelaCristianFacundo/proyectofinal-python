@@ -7,30 +7,46 @@
     <title>Listado de Colaboradores</title>
   </head>
   <body>
-    <h1>Listado de Colaboradores Activos</h1>
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Buscar</button>
-    </form>
-    <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for colaborador in colaboradores %}
-        <tr>
-          <td>{{ colaborador.nombre }}</td>
-          <td>{{ colaborador.apellido }}</td>
-          <td>{{ colaborador.email }}</td>
-          
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    </body>
+    <section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
+      <div
+        class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+        style="width: 50%"
+      >
+        <div
+          class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+        >
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1
+              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center"
+            >
+              Listado de Colaboradores Activos
+            </h1>
+            <form method="post" class="text-center">
+              {% csrf_token %} {{ form.as_p }}
+              <button type="submit">Buscar</button>
+            </form>
+            <table class="table mr-6">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for colaborador in colaboradores %}
+                <tr>
+                  <td>{{ colaborador.nombre }}</td>
+                  <td>{{ colaborador.apellido }}</td>
+                  <td>{{ colaborador.email }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>
 {% endblock contenidoQueCambia %}

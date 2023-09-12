@@ -12634,6 +12634,95 @@ header.masthead {
   padding-bottom: 8rem;
 }
 
+.editar-icon {
+  font-size: 20px;
+  /* Tamaño del icono */
+  color: blue;
+  /* Color del icono */
+}
+
+.eliminar-icon {
+  font-size: 20px;
+  /* Tamaño del icono */
+  color: red;
+  /* Color del icono */
+}
+
+section a {
+  display: inline-block;
+  /* Hace que el enlace sea un bloque en línea */
+  padding: 10px 20px;
+  /* Agrega espacio alrededor del enlace para que parezca un botón */
+  background-color: #007bff;
+  /* Color de fondo del botón (puedes cambiarlo) */
+  color: #fff;
+  /* Color del texto del botón */
+  text-decoration: none;
+  /* Elimina la subrayado predeterminado del enlace */
+  border: none;
+  /* Elimina el borde del enlace */
+  cursor: pointer;
+  /* Cambia el cursor al puntero al pasar el mouse sobre el botón */
+}
+
+section a:hover {
+  background-color: #0056b3;
+  color: white;
+  /* Cambia el color de fondo al pasar el mouse */
+}
+
+section button {
+  display: inline-block;
+  /* Hace que el enlace sea un bloque en línea */
+  padding: 10px 20px;
+  /* Agrega espacio alrededor del enlace para que parezca un botón */
+  background-color: #a52834;
+  /* Color de fondo del botón (puedes cambiarlo) */
+  color: #fff;
+  /* Color del texto del botón */
+  text-decoration: none;
+  /* Elimina la subrayado predeterminado del enlace */
+  border: none;
+  /* Elimina el borde del enlace */
+  cursor: pointer;
+  /* Cambia el cursor al puntero al pasar el mouse sobre el botón */
+}
+
+section button:hover {
+  background-color: #6a1a21 !important;
+  color: white;
+  /* Cambia el color de fondo al pasar el mouse */
+}
+
+[type=button],
+[type=reset],
+[type=submit],
+button {
+  background-color: #a52834 !important;
+}
+
+
+p label {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39/var(--tw-text-opacity));
+  font-weight: 500;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  display: block;
+  margin-bottom: 0.5rem !important;
+}
+
+p input {
+  background-color: rgb(249 250 251/var(--tw-bg-opacity));
+  --tw-bg-opacity: 1;
+  padding: 0.625rem;
+  color: rgb(17 24 39/var(--tw-text-opacity));
+  --tw-border-opacity: 1;
+  width: 100%;
+  display: block;
+  border-radius: 0.5rem;
+}
+
 header.masthead:before {
   content: "";
   position: absolute;

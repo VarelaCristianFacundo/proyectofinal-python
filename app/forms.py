@@ -12,10 +12,12 @@ class PresupuestoFormulario(forms.ModelForm):
 
 
 class BusquedaPresupuestoForm(forms.Form):
-    consulta = forms.CharField(label="Buscar presupuesto", max_length=100)
+    consulta = forms.CharField(label="Buscar presupuesto por servicio", max_length=100)
+
 
 class BusquedaColaboradorForm(forms.Form):
     consulta = forms.CharField(label="Buscar colaborador", max_length=100)
+
 
 class SignupForm(UserCreationForm):
     class Meta:

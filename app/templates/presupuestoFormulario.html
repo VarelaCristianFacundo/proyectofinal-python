@@ -24,15 +24,19 @@
         >
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1
-              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+              class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
             >
-              Sign in to your account
+              Crea un presupuesto
             </h1>
-            <form action="{% url 'PresupuestoFormulario' %}" method="post">
+            <form
+              action="{% url 'PresupuestoFormulario' %}"
+              method="post"
+              style="display: flex; flex-direction: column"
+            >
               {% csrf_token %}
               <br />
               {{presupuestoFormulario.as_p}}
-              <button type="submit">Enviar</button>
+              <button class="mt-2" type="submit">Enviar</button>
             </form>
           </div>
         </div>
