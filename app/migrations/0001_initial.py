@@ -5,48 +5,83 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Cliente',
+            name="Cliente",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nombre', models.CharField(max_length=40)),
-                ('apellido', models.CharField(max_length=40)),
-                ('email', models.EmailField(max_length=254)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nombre", models.CharField(max_length=40)),
+                ("apellido", models.CharField(max_length=40)),
+                ("email", models.EmailField(max_length=254)),
             ],
         ),
         migrations.CreateModel(
-            name='Colaborador',
+            name="Colaborador",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nombre', models.CharField(max_length=40)),
-                ('apellido', models.CharField(max_length=40)),
-                ('email', models.EmailField(max_length=254)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nombre", models.CharField(max_length=40)),
+                ("apellido", models.CharField(max_length=40)),
+                ("email", models.EmailField(max_length=254)),
             ],
         ),
         migrations.CreateModel(
-            name='Servicio',
+            name="Servicio",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('idioma', models.CharField(max_length=40)),
-                ('cantidadDeHojas', models.IntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("idioma", models.CharField(max_length=40)),
+                ("cantidadDeHojas", models.IntegerField()),
             ],
         ),
         migrations.CreateModel(
-            name='Presupuesto',
+            name="Presupuesto",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('servicio', models.CharField(max_length=40)),
-                ('fechaDeEntrega', models.DateField()),
-                ('entregado', models.BooleanField()),
-                ('cantidad', models.IntegerField()),
-                ('cliente', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.cliente')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("servicio", models.CharField(max_length=40)),
+                ("fechaDeEntrega", models.DateField()),
+                ("entregado", models.BooleanField()),
+                ("cantidad", models.IntegerField()),
+                (
+                    "cliente",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="app.cliente"
+                    ),
+                ),
             ],
         ),
     ]

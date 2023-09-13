@@ -32,9 +32,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect(
-                "Home"
-            )  # Puedes redirigir al usuario a la página que desees después del registro
+            return redirect("Home")
     else:
         form = SignupForm()
     return render(request, "signup.html", {"form": form})
@@ -68,8 +66,6 @@ def presupuestoFormulario(req):
 
         if presupuestoFormulario.is_valid():
             data = presupuestoFormulario.cleaned_data
-
-            # Obtén el cliente seleccionado del formulario
             cliente = data["cliente"]
 
             presupuesto = Presupuesto(
