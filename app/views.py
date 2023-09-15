@@ -3,12 +3,13 @@ from .forms import (
     PresupuestoFormulario,
     BusquedaPresupuestoForm,
     SignupForm,
-    BusquedaColaboradorForm,
+    ColaboradorFormulario,
+    ClienteFormulario,
 )
-from .models import Presupuesto, Cliente, Colaborador, AsignacionPresupuesto
-from django.contrib.auth.forms import UserCreationForm
+from .models import Presupuesto, Colaborador, AsignacionPresupuesto
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
-from django.db.models import Subquery, OuterRef
+from django.db.models import Subquery
 
 
 # Create your views here.
@@ -19,6 +20,19 @@ def home(req):
 
 
 def login(req):
+    if req.method == "POST":
+        miFormulario = AuthenticationForm(req, data=req.POST)
+
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario = data["username"]
+            usuario.save()
+
+            return render(req, "Home.html")
+
+    else:
+        miFormulario = ColaboradorFormulario()
+
     return render(req, "login.html")
 
 
@@ -144,6 +158,31 @@ def listar_colaboradores(request):
     )
 
 
+def agregar_colaborador(req):
+    if req.method == "POST":
+        colaboradorForm = ColaboradorFormulario(req.POST)
+
+        if colaboradorForm.is_valid():
+            data = colaboradorForm.cleaned_data
+
+            colaborador = Colaborador(
+                nombre=data["nombre"],
+                apellido=data["apellido"],
+                email=data["email"],
+            )
+            colaborador.save()
+
+            return redirect("ListarColaboradores")
+    else:
+        colaboradorForm = ColaboradorFormulario()
+
+    return render(
+        req,
+        "agregar_colaborador.html",
+        {"colaboradorForm": colaboradorForm},
+    )
+
+
 def asignar_presupuesto(request, presupuesto_id, colaborador_id):
     presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
     colaborador = get_object_or_404(Colaborador, id=colaborador_id)
@@ -175,4 +214,21 @@ def proyectos_asignados(request):
         request,
         "proyectos_asignados.html",
         {"colaboradores": colaboradores, "proyectos_asignados": proyectos_asignados},
+    )
+
+
+def agregar_cliente(request):
+    if request.method == "POST":
+        cliente_form = ClienteFormulario(request.POST)
+
+        if cliente_form.is_valid():
+            cliente_form.save()
+            return redirect("PresupuestoFormulario")
+    else:
+        cliente_form = ClienteFormulario()
+
+    return render(
+        request,
+        "agregar_cliente.html",
+        {"cliente_form": cliente_form},
     )

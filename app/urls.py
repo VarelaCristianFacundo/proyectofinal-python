@@ -7,6 +7,8 @@ urlpatterns = [
     path("signup/", signup_view, name="Signup"),  # Nueva URL para el registro
     path("presupuestoFormulario/", presupuestoFormulario, name="PresupuestoFormulario"),
     path("presupuestos/", listar_presupuestos, name="ListarPresupuestos"),
+    path("agregar_colaborador/", agregar_colaborador, name="AgregarColaborador"),
+    path("agregar_cliente/", agregar_cliente, name="AgregarCliente"),
     path(
         "modificar_presupuesto/<int:presupuesto_id>/",
         modificar_presupuesto,
