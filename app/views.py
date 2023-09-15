@@ -11,6 +11,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Subquery
 
 
@@ -185,7 +186,7 @@ def listar_colaboradores(request):
     )
 
 
-@login_required
+@staff_member_required(login_url="/app/login/")
 def agregar_colaborador(req):
     if req.method == "POST":
         colaboradorForm = ColaboradorFormulario(req.POST)
