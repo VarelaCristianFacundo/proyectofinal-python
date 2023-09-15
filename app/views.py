@@ -9,6 +9,8 @@ from .forms import (
 from .models import Presupuesto, Colaborador, AsignacionPresupuesto
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Subquery
 
 
@@ -73,6 +75,7 @@ def presupuesto(req):
     return render(req, "presupuestoFormulario.html")
 
 
+@login_required
 def listar_presupuestos(req):
     form = BusquedaPresupuestoForm()
     presupuestos = Presupuesto.objects.all()
@@ -125,6 +128,7 @@ def presupuestoFormulario(req):
 
 
 # Vista para modificar un presupuesto
+@login_required
 def modificar_presupuesto(request, presupuesto_id):
     presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
 
@@ -140,6 +144,7 @@ def modificar_presupuesto(request, presupuesto_id):
 
 
 # Vista para confirmar y eliminar un presupuesto
+@login_required
 def eliminar_presupuesto(request, presupuesto_id):
     presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
 
@@ -150,6 +155,7 @@ def eliminar_presupuesto(request, presupuesto_id):
     return render(request, "eliminar_presupuesto.html", {"presupuesto": presupuesto})
 
 
+@login_required
 def listar_colaboradores(request):
     colaboradores = Colaborador.objects.all()
     presupuestos_asignados = AsignacionPresupuesto.objects.values("presupuesto_id")
@@ -179,6 +185,7 @@ def listar_colaboradores(request):
     )
 
 
+@login_required
 def agregar_colaborador(req):
     if req.method == "POST":
         colaboradorForm = ColaboradorFormulario(req.POST)
@@ -204,6 +211,7 @@ def agregar_colaborador(req):
     )
 
 
+@login_required
 def asignar_presupuesto(request, presupuesto_id, colaborador_id):
     presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
     colaborador = get_object_or_404(Colaborador, id=colaborador_id)
