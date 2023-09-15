@@ -1,10 +1,13 @@
 from django.urls import path
 from .views import *
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path("", home, name="Home"),
     path("login/", loginView, name="Login"),
-    path("signup/", signup_view, name="Signup"),  # Nueva URL para el registro
+    path("signup/", signup_view, name="Signup"),
+    path("register/", register, name="Registrar"),
+    path("logout/", LogoutView.as_view(next_page="Home"), name="Logout"),
     path("presupuestoFormulario/", presupuestoFormulario, name="PresupuestoFormulario"),
     path("presupuestos/", listar_presupuestos, name="ListarPresupuestos"),
     path("agregar_colaborador/", agregar_colaborador, name="AgregarColaborador"),

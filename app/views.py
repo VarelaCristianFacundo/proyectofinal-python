@@ -7,7 +7,7 @@ from .forms import (
     ClienteFormulario,
 )
 from .models import Presupuesto, Colaborador, AsignacionPresupuesto
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Subquery
 
@@ -49,6 +49,24 @@ def signup_view(request):
     else:
         form = SignupForm()
     return render(request, "signup.html", {"form": form})
+
+
+def register(req):
+    if req.method == "POST":
+        miFormulario = UserCreationForm(req.POST)
+
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario = data["username"]
+            miFormulario.save()
+            return render(
+                req, "Home.html", {"mensaje": f"Usuario {usuario} creado con éxito!"}
+            )
+
+        return render(req, "Home.html", {"mensaje": f"Formulario inválido"})
+    else:
+        miFormulario = UserCreationForm()
+        return render(req, "registro.html", {"miFormulario": miFormulario})
 
 
 def presupuesto(req):
