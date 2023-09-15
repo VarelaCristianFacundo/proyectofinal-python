@@ -8,7 +8,7 @@ from .forms import (
 )
 from .models import Presupuesto, Colaborador, AsignacionPresupuesto
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Subquery
 
 
@@ -19,25 +19,24 @@ def home(req):
     return render(req, "home.html")
 
 
-def login(req):
+def loginView(req):
     if req.method == "POST":
         miFormulario = AuthenticationForm(req, data=req.POST)
 
         if miFormulario.is_valid():
             data = miFormulario.cleaned_data
             usuario = data["username"]
-            usuario.save()
+            psw = data["password"]
+            user = authenticate(username=usuario, password=psw)
 
-            return render(req, "Home.html")
+            if user:
+                login(req, user)
+                return render(req, "Home.html", {"mensaje": f"Bienvenido {usuario}"})
 
+        return render(req, "Home.html", {"mensaje": f"Datos incorrectos"})
     else:
-        miFormulario = ColaboradorFormulario()
-
-    return render(req, "login.html")
-
-
-def presupuesto(req):
-    return render(req, "presupuestoFormulario.html")
+        miFormulario = AuthenticationForm()
+        return render(req, "login.html", {"miFormulario": miFormulario})
 
 
 def signup_view(request):
@@ -45,11 +44,15 @@ def signup_view(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user)
+            login(request, user)
             return redirect("Home")
     else:
         form = SignupForm()
     return render(request, "signup.html", {"form": form})
+
+
+def presupuesto(req):
+    return render(req, "presupuestoFormulario.html")
 
 
 def listar_presupuestos(req):
