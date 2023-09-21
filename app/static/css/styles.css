@@ -12706,6 +12706,17 @@ button {
   border: none;
 }
 
+.register {
+  background: none;
+  color: #0056b3;
+  padding: 0;
+  font-size: small;
+}
+
+.register:hover {
+  color: #06357a;
+  background: none;
+}
 
 p label {
   --tw-text-opacity: 1;
