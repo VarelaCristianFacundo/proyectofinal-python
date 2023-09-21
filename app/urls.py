@@ -29,4 +29,5 @@ urlpatterns = [
         name="AsignarPresupuesto",
     ),
     path("proyectos_asignados/", proyectos_asignados, name="proyectos_asignados"),
+    path("editar_perfil/", editar_perfil, name="EditarPerfil"),
 ]

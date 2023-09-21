@@ -5,6 +5,7 @@ from .forms import (
     SignupForm,
     ColaboradorFormulario,
     ClienteFormulario,
+    UserEditForm,
 )
 from .models import Presupuesto, Colaborador, AsignacionPresupuesto
 from django.contrib.auth.forms import (
@@ -266,3 +267,27 @@ def agregar_cliente(request):
         "agregar_cliente.html",
         {"cliente_form": cliente_form},
     )
+
+
+@login_required
+def editar_perfil(req):
+    usuario = req.user
+
+    if req.method == "POST":
+        miFormulario = UserEditForm(req.POST, instance=req.user)
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario.first_name = data["first_name"]
+            usuario.last_name = data["last_name"]
+            usuario.email = data["email"]
+            usuario.set_password(data["password1"])
+            usuario.save()
+            return render(
+                req, "Home.html", {"mensaje": "Datos actualizados con éxito!"}
+            )
+        # En caso de que el formulario no sea válido, se mostrará el formulario nuevamente
+        else:
+            return render(req, "editarPerfil.html", {"miFormulario": miFormulario})
+    else:
+        miFormulario = UserEditForm(instance=usuario)
+        return render(req, "editarPerfil.html", {"miFormulario": miFormulario})
