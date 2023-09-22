@@ -19,6 +19,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Subquery
+from django.core.exceptions import ObjectDoesNotExist  # Importa ObjectDoesNotExist
 
 
 # Create your views here.
@@ -50,24 +51,47 @@ def loginView(req):
 
             if user:
                 login(req, user)
-                return render(req, "Home.html", {"mensaje": f"Bienvenido {usuario}"})
+                url_avatar = None
+                if req.user.is_authenticated:
+                    try:
+                        avatar = Avatar.objects.get(user=req.user)
+                        url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+                    except ObjectDoesNotExist:
+                        pass  # Maneja el caso en que no exista un avatar para el usuario
+                    except Avatar.MultipleObjectsReturned:
+                        avatars = Avatar.objects.filter(user=req.user)
+                        avatar = avatars.first()
+                        url_avatar = (
+                            avatar.imagen.url
+                        )  # Obtiene la URL del primer avatar
+                return render(
+                    req,
+                    "Home.html",
+                    {
+                        "url_avatar": url_avatar,
+                    },
+                )
 
-        return render(req, "Home.html", {"mensaje": f"Datos incorrectos"})
+        return render(
+            req,
+            "Home.html",
+            {"mensaje": f"Datos incorrectos"},
+        )
     else:
         miFormulario = AuthenticationForm()
         return render(req, "login.html", {"miFormulario": miFormulario})
 
 
-def signup_view(request):
-    if request.method == "POST":
-        form = SignupForm(request.POST)
+def signup_view(req):
+    if req.method == "POST":
+        form = SignupForm(req.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(req, user)
             return redirect("Home")
     else:
         form = SignupForm()
-    return render(request, "signup.html", {"form": form})
+    return render(req, "signup.html", {"form": form})
 
 
 def register(req):
@@ -88,14 +112,22 @@ def register(req):
         return render(req, "registro.html", {"miFormulario": miFormulario})
 
 
-def presupuesto(req):
-    return render(req, "presupuestoFormulario.html")
-
-
 @login_required
 def listar_presupuestos(req):
     form = BusquedaPresupuestoForm()
     presupuestos = Presupuesto.objects.all()
+    url_avatar = None
+
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
 
     if req.method == "POST":
         form = BusquedaPresupuestoForm(req.POST)
@@ -111,11 +143,26 @@ def listar_presupuestos(req):
     return render(
         req,
         "listar_presupuestos.html",
-        {"presupuestos": presupuestos, "form": form},
+        {
+            "presupuestos": presupuestos,
+            "form": form,
+            "url_avatar": url_avatar,
+        },  # Pasa la URL del avatar a la plantilla
     )
 
 
 def presupuestoFormulario(req):
+    url_avatar = None
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
     if req.method == "POST":
         presupuestoFormulario = PresupuestoFormulario(req.POST)
 
@@ -134,55 +181,104 @@ def presupuestoFormulario(req):
 
             return render(req, "home.html")
     else:
-        presupuestoFormulario = PresupuestoFormulario()
+        presupuestoFormulario = PresupuestoFormulario({"url_avatar": url_avatar})
 
     print(presupuestoFormulario)
     return render(
         req,
         "presupuestoFormulario.html",
-        {"presupuestoFormulario": presupuestoFormulario},
+        {"presupuestoFormulario": presupuestoFormulario, "url_avatar": url_avatar},
     )
 
 
 # Vista para modificar un presupuesto
 @login_required
-def modificar_presupuesto(request, presupuesto_id):
+def modificar_presupuesto(req, presupuesto_id):
+    url_avatar = None
+
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
+
     presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
 
-    if request.method == "POST":
-        form = PresupuestoFormulario(request.POST, instance=presupuesto)
+    if req.method == "POST":
+        form = PresupuestoFormulario(req.POST, instance=presupuesto)
         if form.is_valid():
             form.save()
             return redirect("ListarPresupuestos")
     else:
         form = PresupuestoFormulario(instance=presupuesto)
 
-    return render(request, "modificar_presupuesto.html", {"form": form})
+    return render(
+        req,
+        "modificar_presupuesto.html",
+        {
+            "form": form,
+            "url_avatar": url_avatar,
+        },
+    )
 
 
 # Vista para confirmar y eliminar un presupuesto
 @login_required
-def eliminar_presupuesto(request, presupuesto_id):
+def eliminar_presupuesto(req, presupuesto_id):
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
     presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
 
-    if request.method == "POST":
+    if req.method == "POST":
         presupuesto.delete()
         return redirect("ListarPresupuestos")
 
-    return render(request, "eliminar_presupuesto.html", {"presupuesto": presupuesto})
+    return render(
+        req,
+        "eliminar_presupuesto.html",
+        {
+            "presupuesto": presupuesto,
+            "url_avatar": url_avatar,
+        },
+    )
 
 
 @login_required
-def listar_colaboradores(request):
+def listar_colaboradores(req):
     colaboradores = Colaborador.objects.all()
     presupuestos_asignados = AsignacionPresupuesto.objects.values("presupuesto_id")
     presupuestos_disponibles = Presupuesto.objects.exclude(
         id__in=Subquery(presupuestos_asignados)
     )
+    url_avatar = None
 
-    if request.method == "POST":
-        colaborador_id = request.POST.get("colaborador")
-        presupuesto_id = request.POST.get("presupuesto")
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
+
+    if req.method == "POST":
+        colaborador_id = req.POST.get("colaborador")
+        presupuesto_id = req.POST.get("presupuesto")
 
         if colaborador_id and presupuesto_id:
             colaborador = Colaborador.objects.get(pk=colaborador_id)
@@ -196,14 +292,31 @@ def listar_colaboradores(request):
             return redirect("ListarColaboradores")
 
     return render(
-        request,
+        req,
         "listar_colaboradores.html",
-        {"colaboradores": colaboradores, "presupuestos": presupuestos_disponibles},
+        {
+            "colaboradores": colaboradores,
+            "presupuestos": presupuestos_disponibles,
+            "url_avatar": url_avatar,
+        },
     )
 
 
 @staff_member_required(login_url="/app/login/")
 def agregar_colaborador(req):
+    url_avatar = None
+
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
+
     if req.method == "POST":
         colaboradorForm = ColaboradorFormulario(req.POST)
 
@@ -224,12 +337,15 @@ def agregar_colaborador(req):
     return render(
         req,
         "agregar_colaborador.html",
-        {"colaboradorForm": colaboradorForm},
+        {
+            "colaboradorForm": colaboradorForm,
+            "url_avatar": url_avatar,
+        },
     )
 
 
 @login_required
-def asignar_presupuesto(request, presupuesto_id, colaborador_id):
+def asignar_presupuesto(req, presupuesto_id, colaborador_id):
     presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
     colaborador = get_object_or_404(Colaborador, id=colaborador_id)
 
@@ -246,26 +362,54 @@ def asignar_presupuesto(request, presupuesto_id, colaborador_id):
     return redirect("ListarPresupuestos")
 
 
-def proyectos_asignados(request):
+def proyectos_asignados(req):
+    url_avatar = None
+
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
     colaboradores = Colaborador.objects.all()
     proyectos_asignados = {}
 
-    if request.method == "POST":
-        colaborador_id = request.POST.get("colaborador")
+    if req.method == "POST":
+        colaborador_id = req.POST.get("colaborador")
         if colaborador_id:
             colaborador = Colaborador.objects.get(id=colaborador_id)
             proyectos_asignados = colaborador.asignacionpresupuesto_set.all()
 
     return render(
-        request,
+        req,
         "proyectos_asignados.html",
-        {"colaboradores": colaboradores, "proyectos_asignados": proyectos_asignados},
+        {
+            "colaboradores": colaboradores,
+            "proyectos_asignados": proyectos_asignados,
+            "url_avatar": url_avatar,
+        },
     )
 
 
-def agregar_cliente(request):
-    if request.method == "POST":
-        cliente_form = ClienteFormulario(request.POST)
+def agregar_cliente(req):
+    url_avatar = None
+
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
+    if req.method == "POST":
+        cliente_form = ClienteFormulario(req.POST)
 
         if cliente_form.is_valid():
             cliente_form.save()
@@ -274,9 +418,12 @@ def agregar_cliente(request):
         cliente_form = ClienteFormulario()
 
     return render(
-        request,
+        req,
         "agregar_cliente.html",
-        {"cliente_form": cliente_form},
+        {
+            "cliente_form": cliente_form,
+            "url_avatar": url_avatar,
+        },
     )
 
 

@@ -36,5 +36,7 @@
     </div>
   </div>
 </section>
-
-{% endblock contenidoQueCambia %}
+<!-- Agrega el avatar usando la variable url_avatar -->
+{% if url_avatar %}
+<img src="{{ url_avatar }}" alt="avatar" />
+{% endif %} {% endblock contenidoQueCambia %}
