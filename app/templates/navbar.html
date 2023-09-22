@@ -24,6 +24,11 @@
       >Proyectos Asignados</a
     >
     <p>Bienvenido {{user.username}}</p>
+
+    {% if url_avatar %}
+    <img src="{{ url_avatar }}" alt="avatar" />
+    {% endif %}
+
     <a class="btn btn-primary" href="{% url 'Logout' %}">Logout</a>
     {% else %}
     <a class="navbar-brand" href="{% url 'PresupuestoFormulario' %}"

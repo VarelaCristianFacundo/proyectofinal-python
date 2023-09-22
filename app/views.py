@@ -6,8 +6,9 @@ from .forms import (
     ColaboradorFormulario,
     ClienteFormulario,
     UserEditForm,
+    AvatarFormulario,
 )
-from .models import Presupuesto, Colaborador, AsignacionPresupuesto
+from .models import Presupuesto, Colaborador, AsignacionPresupuesto, Avatar
 from django.contrib.auth.forms import (
     AuthenticationForm,
     UserCreationForm,
@@ -24,7 +25,17 @@ from django.db.models import Subquery
 
 
 def home(req):
-    return render(req, "home.html")
+    try:
+        avatar = Avatar.objects.get(user=req.user.id)
+        return render(req, "home.html", {"url_avatar": avatar.imagen.url})
+    except:
+        return render(
+            req,
+            "home.html",
+            {
+                "url_avatar": "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
+            },
+        )
 
 
 def loginView(req):
@@ -291,3 +302,20 @@ def editar_perfil(req):
     else:
         miFormulario = UserEditForm(instance=usuario)
         return render(req, "editarPerfil.html", {"miFormulario": miFormulario})
+
+
+@login_required
+def agregar_avatar(req):
+    if req.method == "POST":
+        miFormulario = AvatarFormulario(req.POST, req.FILES)
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            avatar = Avatar(user=req.user, imagen=data["imagen"])
+
+            avatar.save()
+            return render(
+                req, "Home.html", {"mensaje": "Avatar actualizado con éxito!"}
+            )
+    else:
+        miFormulario = AvatarFormulario()
+        return render(req, "agregarAvatar.html", {"miFormulario": miFormulario})
