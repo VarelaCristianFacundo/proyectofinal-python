@@ -429,6 +429,19 @@ def agregar_cliente(req):
 
 @login_required
 def editar_perfil(req):
+    url_avatar = None
+
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
+
     usuario = req.user
 
     if req.method == "POST":
@@ -441,18 +454,49 @@ def editar_perfil(req):
             usuario.set_password(data["password1"])
             usuario.save()
             return render(
-                req, "Home.html", {"mensaje": "Datos actualizados con éxito!"}
+                req,
+                "Home.html",
+                {
+                    "mensaje": "Datos actualizados con éxito!",
+                    "url_avatar": url_avatar,
+                },
             )
         # En caso de que el formulario no sea válido, se mostrará el formulario nuevamente
         else:
-            return render(req, "editarPerfil.html", {"miFormulario": miFormulario})
+            return render(
+                req,
+                "editarPerfil.html",
+                {
+                    "miFormulario": miFormulario,
+                    "url_avatar": url_avatar,
+                },
+            )
     else:
         miFormulario = UserEditForm(instance=usuario)
-        return render(req, "editarPerfil.html", {"miFormulario": miFormulario})
+        return render(
+            req,
+            "editarPerfil.html",
+            {
+                "miFormulario": miFormulario,
+                "url_avatar": url_avatar,
+            },
+        )
 
 
 @login_required
 def agregar_avatar(req):
+    url_avatar = None
+
+    if req.user.is_authenticated:
+        try:
+            avatar = Avatar.objects.get(user=req.user)
+            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
+        except ObjectDoesNotExist:
+            pass  # Maneja el caso en que no exista un avatar para el usuario
+        except Avatar.MultipleObjectsReturned:
+            avatars = Avatar.objects.filter(user=req.user)
+            avatar = avatars.first()
+            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
     try:
         avatar = Avatar.objects.get(user=req.user)
     except Avatar.DoesNotExist:
@@ -473,8 +517,20 @@ def agregar_avatar(req):
                 avatar.save()
 
             return render(
-                req, "Home.html", {"mensaje": "Avatar actualizado con éxito!"}
+                req,
+                "Home.html",
+                {
+                    "mensaje": "Avatar actualizado con éxito!",
+                    "url_avatar": url_avatar,
+                },
             )
     else:
         miFormulario = AvatarFormulario()
-        return render(req, "agregarAvatar.html", {"miFormulario": miFormulario})
+        return render(
+            req,
+            "agregarAvatar.html",
+            {
+                "miFormulario": miFormulario,
+                "url_avatar": url_avatar,
+            },
+        )
