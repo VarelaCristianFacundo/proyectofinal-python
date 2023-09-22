@@ -51,7 +51,7 @@ def loginView(req):
 
             if user:
                 login(req, user)
-                url_avatar = None
+                url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
                 if req.user.is_authenticated:
                     try:
                         avatar = Avatar.objects.get(user=req.user)
@@ -78,8 +78,16 @@ def loginView(req):
             {"mensaje": f"Datos incorrectos"},
         )
     else:
+        url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
         miFormulario = AuthenticationForm()
-        return render(req, "login.html", {"miFormulario": miFormulario})
+        return render(
+            req,
+            "login.html",
+            {
+                "miFormulario": miFormulario,
+                "url_avatar": url_avatar,
+            },
+        )
 
 
 def signup_view(req):
@@ -116,7 +124,7 @@ def register(req):
 def listar_presupuestos(req):
     form = BusquedaPresupuestoForm()
     presupuestos = Presupuesto.objects.all()
-    url_avatar = None
+    url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.user.is_authenticated:
         try:
@@ -152,7 +160,7 @@ def listar_presupuestos(req):
 
 
 def presupuestoFormulario(req):
-    url_avatar = None
+    url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
     if req.user.is_authenticated:
         try:
             avatar = Avatar.objects.get(user=req.user)
@@ -194,7 +202,7 @@ def presupuestoFormulario(req):
 # Vista para modificar un presupuesto
 @login_required
 def modificar_presupuesto(req, presupuesto_id):
-    url_avatar = None
+    url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.user.is_authenticated:
         try:
@@ -263,7 +271,7 @@ def listar_colaboradores(req):
     presupuestos_disponibles = Presupuesto.objects.exclude(
         id__in=Subquery(presupuestos_asignados)
     )
-    url_avatar = None
+    url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.user.is_authenticated:
         try:
@@ -304,7 +312,7 @@ def listar_colaboradores(req):
 
 @staff_member_required(login_url="/app/login/")
 def agregar_colaborador(req):
-    url_avatar = None
+    url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.user.is_authenticated:
         try:
@@ -363,7 +371,7 @@ def asignar_presupuesto(req, presupuesto_id, colaborador_id):
 
 
 def proyectos_asignados(req):
-    url_avatar = None
+    url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.user.is_authenticated:
         try:
@@ -396,7 +404,7 @@ def proyectos_asignados(req):
 
 
 def agregar_cliente(req):
-    url_avatar = None
+    url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.user.is_authenticated:
         try:
@@ -429,7 +437,7 @@ def agregar_cliente(req):
 
 @login_required
 def editar_perfil(req):
-    url_avatar = None
+    url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.user.is_authenticated:
         try:
@@ -485,7 +493,7 @@ def editar_perfil(req):
 
 @login_required
 def agregar_avatar(req):
-    url_avatar = None
+    url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.user.is_authenticated:
         try:
@@ -500,7 +508,7 @@ def agregar_avatar(req):
     try:
         avatar = Avatar.objects.get(user=req.user)
     except Avatar.DoesNotExist:
-        avatar = None
+        avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.method == "POST":
         miFormulario = AvatarFormulario(req.POST, req.FILES)
