@@ -453,13 +453,25 @@ def editar_perfil(req):
 
 @login_required
 def agregar_avatar(req):
+    try:
+        avatar = Avatar.objects.get(user=req.user)
+    except Avatar.DoesNotExist:
+        avatar = None
+
     if req.method == "POST":
         miFormulario = AvatarFormulario(req.POST, req.FILES)
         if miFormulario.is_valid():
             data = miFormulario.cleaned_data
-            avatar = Avatar(user=req.user, imagen=data["imagen"])
 
-            avatar.save()
+            if avatar:
+                # Si el usuario ya tiene un avatar, actualiza la imagen existente
+                avatar.imagen = data["imagen"]
+                avatar.save()
+            else:
+                # Si el usuario no tiene un avatar, crea uno nuevo
+                avatar = Avatar(user=req.user, imagen=data["imagen"])
+                avatar.save()
+
             return render(
                 req, "Home.html", {"mensaje": "Avatar actualizado con éxito!"}
             )
