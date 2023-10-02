@@ -1,0 +1,93 @@
+{% extends 'home.html' %} {% block contenidoQueCambia %} {% load static %}
+
+<section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
+  <div
+    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+    style="width: 50%"
+  >
+    <div
+      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+    >
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-md-6">
+              <h1 class="text-4xl font-bold mb-4">Acerca de Mí</h1>
+              <p class="mb-4">
+                ¡Hola! Soy Cristian Facundo Varela, un desarrollador de software
+                capacitado con experiencia en JavaScript y conocimientos en
+                frameworks como React, Node.js y Angular.js. Creo soluciones
+                eficientes y escalables.
+              </p>
+              <h2 class="text-2xl font-bold mb-2">Habilidades</h2>
+              <ul class="list-disc ml-4 mb-4">
+                <li>Desarrollo web</li>
+                <li>Desarrollo mobile</li>
+                <li>Diseño UX/UI</li>
+              </ul>
+            </div>
+            <div class="col-md-6 avatar-aboutus">
+              <!-- Puedes agregar una imagen tuya aquí -->
+              <img
+                src="{% static 'assets/img/CristianVarela.jpeg' %}"
+                alt="Portfolio"
+                class="avatar"
+              />
+              <h2 class="text-2xl font-bold mb-2">Contacto</h2>
+              <p class="mb-2">
+                Puedes contactarme en [tu correo electrónico] o a través de mis
+                redes sociales:
+              </p>
+              <ul class="list-inline">
+                <li class="list-inline-item logos-aboutus">
+                  <a
+                    href="https://www.linkedin.com/in/cristianfacundovarela/"
+                    target="_blank"
+                  >
+                    <h3
+                      style="
+                        text-align: center;
+                        color: black;
+                        text-decoration: dotted;
+                        font-weight: bold;
+                        padding-bottom: 5px;
+                      "
+                    >
+                      Linkedin
+                    </h3>
+                    <img
+                      src="{% static 'assets/img/logoLinkedin.png' %}"
+                      alt="LinkedIn"
+                    />
+                  </a>
+                  <a
+                    href="https://varela-portfolio.vercel.app/"
+                    target="_blank"
+                  >
+                    <h3
+                      style="
+                        text-align: center;
+                        color: black;
+                        text-decoration: dotted;
+                        font-weight: bold;
+                        padding-bottom: 5px;
+                      "
+                    >
+                      Portfolio
+                    </h3>
+                    <img
+                      src="{% static 'assets/img/logoVarela.png' %}"
+                      alt="Portfolio"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock contenidoQueCambia %}

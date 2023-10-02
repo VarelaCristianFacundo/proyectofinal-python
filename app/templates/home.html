@@ -52,7 +52,59 @@
       </div>
     </header>
 
-    {% block contenidoQueCambia %} {{mensaje}} {% endblock contenidoQueCambia %}
+    {% block contenidoQueCambia %}
+    <section class="bg-light py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Crea un presupuesto</h5>
+                <p class="card-text">
+                  Crea un nuevo presupuesto para tus proyectos.
+                </p>
+                <a
+                  href="{% url 'PresupuestoFormulario' %}"
+                  class="btn btn-primary"
+                  >Ir a crear presupuesto</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Agrega nuevos clientes</h5>
+                <p class="card-text">
+                  Agrega nuevos clientes a tu lista de contactos.
+                </p>
+                <a href="{% url 'AgregarCliente' %}" class="btn btn-primary"
+                  >Ir a agregar clientes</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Verifica los proyectos asignados</h5>
+                <p class="card-text">
+                  Verifica los proyectos que se te han asignado.
+                </p>
+                <a
+                  href="{% url 'proyectos_asignados' %}"
+                  class="btn btn-primary"
+                  >Ir a verificar proyectos</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endblock contenidoQueCambia %}
 
     <!-- Footer-->
     <footer class="footer bg-light">

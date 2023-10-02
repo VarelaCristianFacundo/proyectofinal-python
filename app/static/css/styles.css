@@ -12838,3 +12838,31 @@ header.masthead .h1 {
   margin-top: auto;
   /* Empuja el footer hacia la parte inferior */
 }
+
+.list-inline .list-inline-item a {
+  background: none;
+  width: 40%;
+}
+
+.logos-aboutus {
+  display: flex;
+  justify-content: center;
+}
+
+.avatar {
+  border-radius: 50%;
+  /* Esto hace que la imagen sea circular */
+  width: 100px;
+  /* Establece el ancho deseado para tu avatar */
+  height: 100px;
+  /* Establece la altura deseada para tu avatar */
+  object-fit: cover;
+  /* Ajusta la imagen para llenar el contenedor */
+}
+
+.avatar-aboutus {
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

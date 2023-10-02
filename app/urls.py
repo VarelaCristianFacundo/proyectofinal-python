@@ -7,6 +7,7 @@ urlpatterns = [
     path("login/", loginView, name="Login"),
     path("signup/", signup_view, name="Signup"),
     path("register/", register, name="Registrar"),
+    path("", aboutus, name="Aboutus"),
     path("logout/", LogoutView.as_view(next_page="Home"), name="Logout"),
     path("presupuestoFormulario/", presupuestoFormulario, name="PresupuestoFormulario"),
     path("presupuestos/", listar_presupuestos, name="ListarPresupuestos"),
@@ -31,4 +32,5 @@ urlpatterns = [
     path("proyectos_asignados/", proyectos_asignados, name="proyectos_asignados"),
     path("editar_perfil/", editar_perfil, name="EditarPerfil"),
     path("agregar_avatar/", agregar_avatar, name="AgregarAvatar"),
+    path("aboutus/", aboutus, name="Aboutus"),
 ]

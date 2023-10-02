@@ -28,7 +28,18 @@ from django.core.exceptions import ObjectDoesNotExist  # Importa ObjectDoesNotEx
 def home(req):
     try:
         avatar = Avatar.objects.get(user=req.user.id)
-        return render(req, "home.html", {"url_avatar": avatar.imagen.url})
+        proyectos_asignados = AsignacionPresupuesto.objects.all()
+        print(
+            "Proyectos Asignados:", proyectos_asignados
+        )  # Agrega este mensaje de depuración
+        return render(
+            req,
+            "home.html",
+            {
+                "url_avatar": avatar.imagen.url,
+                "proyectos_asignados": proyectos_asignados,
+            },
+        )
     except:
         return render(
             req,
@@ -540,5 +551,19 @@ def agregar_avatar(req):
             {
                 "miFormulario": miFormulario,
                 "url_avatar": url_avatar,
+            },
+        )
+
+
+def aboutus(req):
+    try:
+        avatar = Avatar.objects.get(user=req.user.id)
+        return render(req, "aboutus.html", {"url_avatar": avatar.imagen.url})
+    except:
+        return render(
+            req,
+            "aboutus.html",
+            {
+                "url_avatar": "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
             },
         )
