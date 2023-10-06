@@ -36,6 +36,7 @@
               <th>Fecha de Entrega</th>
               <th>Cantidad</th>
               <th>Cliente</th>
+              <th>Entregado?</th>
             </tr>
           </thead>
           <tbody>
@@ -45,6 +46,7 @@
               <td>{{ asignacion.presupuesto.fechaDeEntrega }}</td>
               <td>{{ asignacion.presupuesto.cantidad }}</td>
               <td>{{ asignacion.presupuesto.cliente }}</td>
+              <td>{{ asignacion.presupuesto.entregado }}</td>
             </tr>
             {% endfor %}
           </tbody>

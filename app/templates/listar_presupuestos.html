@@ -26,15 +26,13 @@
             <tr>
               <th>Servicio</th>
               <th>Fecha de Entrega</th>
-              <th>Entregado</th>
+              <th>Entregado?</th>
               <th>Cantidad</th>
+              <th>Precio</th>
+              <!-- Agrega esta columna -->
               <th>Cliente</th>
-              <th class="editar">
-                <span class="editar-icon">&#9998;</span>
-              </th>
-              <th class="eliminar">
-                <span class="eliminar-icon">&#128465;</span>
-              </th>
+              <th>Editar</th>
+              <th>Eliminar</th>
             </tr>
           </thead>
           <tbody>
@@ -42,15 +40,18 @@
             <tr>
               <td>{{ presupuesto.servicio }}</td>
               <td>{{ presupuesto.fechaDeEntrega }}</td>
-              <td>{{ presupuesto.entregado }}</td>
+              <td>
+                {% if presupuesto.entregado %} SI {% else %} NO {% endif %}
+              </td>
               <td>{{ presupuesto.cantidad }}</td>
+              <td>{{ presupuesto.precio }}</td>
+              <!-- Muestra el precio -->
               <td>{{ presupuesto.cliente }}</td>
               <td>
                 <a href="{% url 'ModificarPresupuesto' presupuesto.id %}"
                   >Editar</a
                 >
               </td>
-
               <td>
                 <a href="{% url 'EliminarPresupuesto' presupuesto.id %}"
                   >Eliminar</a
@@ -60,6 +61,7 @@
             {% endfor %}
           </tbody>
         </table>
+
         <a
           style="display: flex; justify-content: center"
           href="{% url 'PresupuestoFormulario' %}"

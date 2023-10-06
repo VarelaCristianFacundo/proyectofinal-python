@@ -33,4 +33,5 @@ urlpatterns = [
     path("editar_perfil/", editar_perfil, name="EditarPerfil"),
     path("agregar_avatar/", agregar_avatar, name="AgregarAvatar"),
     path("aboutus/", aboutus, name="Aboutus"),
+    path("pagina_no_encontrada/", custom_404, name="custom_404"),
 ]

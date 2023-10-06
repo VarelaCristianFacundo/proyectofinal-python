@@ -20,9 +20,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Subquery
 from django.core.exceptions import ObjectDoesNotExist  # Importa ObjectDoesNotExist
-
-
-# Create your views here.
+from django.http import Http404
 
 
 def home(req):
@@ -321,7 +319,7 @@ def listar_colaboradores(req):
     )
 
 
-@staff_member_required(login_url="/app/login/")
+@login_required
 def agregar_colaborador(req):
     url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
@@ -381,6 +379,7 @@ def asignar_presupuesto(req, presupuesto_id, colaborador_id):
     return redirect("ListarPresupuestos")
 
 
+@login_required
 def proyectos_asignados(req):
     url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
@@ -568,3 +567,7 @@ def aboutus(req):
                 "url_avatar": "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
             },
         )
+
+
+def custom_404(request, exception=None):
+    return render(request, "no_pagina.html", status=404)
