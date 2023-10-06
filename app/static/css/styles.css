@@ -12632,10 +12632,21 @@ fieldset:disabled .btn {
 
 header.masthead {
   position: relative;
-  background: url("../assets/img/banner-principal.png") no-repeat center center;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets/img/banner-principal.png") no-repeat center center;
   background-size: cover;
   padding-top: 8rem;
   padding-bottom: 8rem;
+  animation: fadeIn 3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .editar-icon {
@@ -12765,8 +12776,8 @@ header.masthead .h1 {
 
 @media (min-width: 768px) {
   header.masthead {
-    padding-top: 12rem;
-    padding-bottom: 12rem;
+    padding-top: 24rem;
+    padding-bottom: 10rem;
   }
 
   header.masthead h1,
@@ -12865,4 +12876,24 @@ header.masthead .h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* Estilos para testimonios */
+.testimonial-img img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 15px;
+  /* Espacio entre la imagen y el texto */
+}
+
+.card-title {
+  font-size: 18px;
+  /* Tamaño de fuente más grande para el título */
+}
+
+.card-text {
+  font-size: 16px;
+  color: #000;
+  /* Tamaño de fuente para el texto del testimonio */
 }

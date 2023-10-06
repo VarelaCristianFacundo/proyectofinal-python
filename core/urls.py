@@ -24,6 +24,7 @@ from app.views import custom_404
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("app/", include("app.urls")),
+    path("pagina_no_encontrada/", custom_404, name="custom_404"),
 ]
 
 handler404 = custom_404
