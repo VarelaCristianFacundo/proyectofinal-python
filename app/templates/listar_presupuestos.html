@@ -29,8 +29,8 @@
               <th>Entregado?</th>
               <th>Cantidad</th>
               <th>Precio</th>
-              <!-- Agrega esta columna -->
               <th>Cliente</th>
+              <th>Vencido</th>
               <th>Editar</th>
               <th>Eliminar</th>
             </tr>
@@ -45,8 +45,9 @@
               </td>
               <td>{{ presupuesto.cantidad }}</td>
               <td>{{ presupuesto.precio }}</td>
-              <!-- Muestra el precio -->
               <td>{{ presupuesto.cliente }}</td>
+              <td>{{ presupuesto.vencido|yesno:"Vencido,No Vencido" }}</td>
+
               <td>
                 <a href="{% url 'ModificarPresupuesto' presupuesto.id %}"
                   >Editar</a

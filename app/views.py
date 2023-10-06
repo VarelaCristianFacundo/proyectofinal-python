@@ -20,7 +20,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Subquery
 from django.core.exceptions import ObjectDoesNotExist  # Importa ObjectDoesNotExist
-from django.http import Http404
+from django.utils import timezone
 
 
 def home(req):
@@ -157,6 +157,14 @@ def listar_presupuestos(req):
             Presupuesto.objects.all()
         )  # Obtener todos los presupuestos sin filtro
 
+    today = timezone.now().date()  # Obtén el día actual
+
+    for presupuesto in presupuestos:
+        if not presupuesto.entregado and presupuesto.fechaDeEntrega <= today:
+            presupuesto.vencido = True
+        else:
+            presupuesto.vencido = False
+
     return render(
         req,
         "listar_presupuestos.html",
@@ -164,12 +172,13 @@ def listar_presupuestos(req):
             "presupuestos": presupuestos,
             "form": form,
             "url_avatar": url_avatar,
-        },  # Pasa la URL del avatar a la plantilla
+        },
     )
 
 
 def presupuestoFormulario(req):
     url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
+
     if req.user.is_authenticated:
         try:
             avatar = Avatar.objects.get(user=req.user)
@@ -180,27 +189,17 @@ def presupuestoFormulario(req):
             avatars = Avatar.objects.filter(user=req.user)
             avatar = avatars.first()
             url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
+
     if req.method == "POST":
         presupuestoFormulario = PresupuestoFormulario(req.POST)
-
         if presupuestoFormulario.is_valid():
-            data = presupuestoFormulario.cleaned_data
-            cliente = data["cliente"]
-
-            presupuesto = Presupuesto(
-                servicio=data["servicio"],
-                fechaDeEntrega=data["fechaDeEntrega"],
-                cantidad=data["cantidad"],
-                entregado=False,
-                cliente=cliente,
-            )
-            presupuesto.save()
-
+            presupuestoFormulario.save()
             return render(req, "home.html")
     else:
-        presupuestoFormulario = PresupuestoFormulario({"url_avatar": url_avatar})
+        presupuestoFormulario = (
+            PresupuestoFormulario()
+        )  # Inicializa el formulario sin datos
 
-    print(presupuestoFormulario)
     return render(
         req,
         "presupuestoFormulario.html",

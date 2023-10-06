@@ -3,12 +3,25 @@ from .models import Cliente, Colaborador
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from .models import Presupuesto, Avatar
+from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 
 class PresupuestoFormulario(forms.ModelForm):
     class Meta:
         model = Presupuesto
         fields = ["servicio", "fechaDeEntrega", "cantidad", "entregado", "cliente"]
+        widgets = {
+            "fechaDeEntrega": forms.DateInput(attrs={"type": "date"}),
+        }
+
+    def clean_fechaDeEntrega(self):
+        fecha_entrega = self.cleaned_data["fechaDeEntrega"]
+        if fecha_entrega < timezone.now().date():
+            raise ValidationError(
+                "La fecha de entrega no puede ser anterior al día actual."
+            )
+        return fecha_entrega
 
 
 class ColaboradorFormulario(forms.ModelForm):
