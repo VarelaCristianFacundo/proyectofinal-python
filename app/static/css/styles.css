@@ -12776,8 +12776,8 @@ header.masthead .h1 {
 
 @media (min-width: 768px) {
   header.masthead {
-    padding-top: 24rem;
-    padding-bottom: 10rem;
+    padding-top: 10rem;
+    padding-bottom: 6rem;
   }
 
   header.masthead h1,
@@ -12896,4 +12896,35 @@ header.masthead .h1 {
   font-size: 16px;
   color: #000;
   /* Tamaño de fuente para el texto del testimonio */
+}
+
+@media screen and (min-width: 1500px) and (max-width: 2560px) {
+
+  header.masthead {
+    padding-top: 58rem;
+    padding-bottom: 10rem;
+    height: 100%;
+    width: 100%;
+  }
+
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1490px) {
+
+  header.masthead {
+    padding-top: 29rem;
+    padding-bottom: 10rem;
+    height: 100%;
+    width: 100%;
+  }
+
+}
+
+@media screen and (min-width: 800px) and (max-width: 1100px) {
+
+  header.masthead {
+    padding-top: 15rem;
+    padding-bottom: 10rem;
+  }
+
 }
