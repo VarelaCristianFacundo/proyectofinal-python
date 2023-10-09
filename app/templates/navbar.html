@@ -1,3 +1,11 @@
+<link
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <!-- Navigation-->
 <nav class="navbar navbar-light bg-light static-top p-6">
   <div class="container">
@@ -90,7 +98,9 @@
     <a
       class="btn btn-primary btn-lg"
       style="background-color: white; color: #6f95c5; font-weight: semibold"
-      href="{% url 'Registrar' %}"
+      href="#codigoRegistroModal"
+      data-toggle="modal"
+      data-target="#codigoRegistroModal"
       >Regístrate</a
     >
     <a
@@ -117,3 +127,55 @@
     </div>
   </div>
 </header>
+
+<!-- Modal para ingresar el código de registro -->
+<div
+  class="modal fade"
+  id="codigoRegistroModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="codigoRegistroModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #6f95c5; color: white">
+        <h5 class="modal-title" id="codigoRegistroModalLabel">
+          Código de Registro
+        </h5>
+        <button
+          type="btn"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Cerrar"
+          style="color: white; background-color: #6f95c5 !important"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Ingresa el código de registro para continuar:</p>
+        <form action="{% url 'VerificarCodigoRegistro' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="codigo_registro">Código de Registro:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="codigo_registro"
+              name="codigo_registro"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="background-color: #6f95c5 !important; border: none"
+          >
+            Verificar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

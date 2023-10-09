@@ -34,4 +34,9 @@ urlpatterns = [
     path("agregar_avatar/", agregar_avatar, name="AgregarAvatar"),
     path("aboutus/", aboutus, name="Aboutus"),
     path("pagina_no_encontrada/", custom_404, name="custom_404"),
+    path(
+        "verificar_codigo_registro/",
+        VerificarCodigoRegistro,
+        name="VerificarCodigoRegistro",
+    ),
 ]

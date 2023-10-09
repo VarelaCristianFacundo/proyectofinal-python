@@ -583,3 +583,20 @@ def aboutus(req):
 
 def custom_404(request, exception=None):
     return render(request, "no_pagina.html", status=404)
+
+
+def VerificarCodigoRegistro(req):
+    if req.method == "POST":
+        codigo_registro = req.POST.get("codigo_registro")
+
+        # Aquí verifica si el código de registro es válido
+        if codigo_registro == "1234":
+            return redirect("Registrar")  # Redirecciona al formulario de registro
+        else:
+            return render(
+                req,
+                "home.html",
+                {"mensaje_error": "Código de registro inválido"},
+            )
+
+    return redirect("Registrar")
