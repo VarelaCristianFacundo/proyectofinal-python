@@ -35,8 +35,8 @@ class Presupuesto(models.Model):
 
 
 class Colaborador(models.Model):
-    nombre = models.CharField(max_length=40)
-    apellido = models.CharField(max_length=40)
+    nombre = models.CharField(max_length=255)
+    apellido = models.CharField(max_length=255)
     email = models.EmailField()
 
     def __str__(self):
@@ -54,3 +54,6 @@ class AsignacionPresupuesto(models.Model):
 class Avatar(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     imagen = models.ImageField(upload_to="avatares", blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.imagen}"

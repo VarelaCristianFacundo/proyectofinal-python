@@ -21,6 +21,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Subquery
 from django.core.exceptions import ObjectDoesNotExist  # Importa ObjectDoesNotExist
 from django.utils import timezone
+from datetime import datetime
 
 
 def home(req):
@@ -355,8 +356,8 @@ def agregar_colaborador(req):
             colaborador.save()
 
             return redirect("ListarColaboradores")
-    else:
-        colaboradorForm = ColaboradorFormulario()
+        else:
+            print(colaboradorForm.errors)
 
     return render(
         req,
@@ -540,6 +541,17 @@ def agregar_avatar(req):
                 {
                     "mensaje": "Avatar actualizado con éxito!",
                     "url_avatar": avatar.imagen.url,
+                },
+            )
+        else:
+            # Captura el error y muestra un mensaje personalizado
+            miFormulario._errors["imagen"] = ErrorList(["No subiste ninguna imagen."])
+            return render(
+                req,
+                "agregarAvatar.html",
+                {
+                    "miFormulario": miFormulario,
+                    "url_avatar": url_avatar,
                 },
             )
     else:
