@@ -1,12 +1,13 @@
 <!-- Navigation-->
-<nav class="navbar navbar-light bg-light static-top">
+<nav class="navbar navbar-light bg-light static-top p-6">
   <div class="container">
     <a class="navbar-brand" href="{% url 'Home' %}">Home</a>
 
     {% if user.is_authenticated %}
     <div class="dropdown">
       <a
-        class="btn btn-secondary dropdown-toggle"
+        style="background-color: white; color: black; border: none"
+        class="navbar-brand btn btn-secondary dropdown-toggle"
         href="#"
         role="button"
         id="presupuestoDropdown"
@@ -31,7 +32,8 @@
 
     <div class="dropdown">
       <a
-        class="btn btn-secondary dropdown-toggle"
+        style="background-color: white; color: black; border: none"
+        class="navbar-brand btn btn-secondary dropdown-toggle"
         href="#"
         role="button"
         id="colaboradoresDropdown"
@@ -54,11 +56,8 @@
       </ul>
     </div>
 
-    <a class="navbar-brand" href="{% url 'AgregarCliente' %}"
-      >Agregar Clientes</a
-    >
     <a class="navbar-brand" href="{% url 'proyectos_asignados' %}"
-      >Proyectos Asignados</a
+      >Presupuestos Asignados</a
     >
     <a class="navbar-brand" href="{% url 'EditarPerfil' %}"
       >Bienvenido {{user.username}}</a
@@ -70,14 +69,51 @@
     </a>
     {% endif %}
 
-    <a class="btn btn-primary" href="{% url 'Logout' %}">Logout</a>
+    <a
+      class="btn btn-primary btn-lg"
+      style="
+        background-color: #6f95c5;
+        color: white;
+        font-weight: semibold;
+        border: none;
+      "
+      href="{% url 'Logout' %}"
+      >Logout</a
+    >
     {% else %}
     <a class="navbar-brand" href="{% url 'PresupuestoFormulario' %}"
       >Presupuesto</a
     >
-    <a class="btn btn-secondary" href="{% url 'Registrar' %}">Regístrate</a>
-    <a class="btn btn-primary" href="{% url 'Login' %}">Login</a>
+    <a class="navbar-brand" href="{% url 'AgregarCliente' %}"
+      >Quiero ser Cliente</a
+    >
+    <a
+      class="btn btn-primary btn-lg"
+      style="background-color: white; color: #6f95c5; font-weight: semibold"
+      href="{% url 'Registrar' %}"
+      >Regístrate</a
+    >
+    <a
+      class="btn btn-primary btn-lg"
+      style="
+        background-color: #6f95c5;
+        color: white;
+        font-weight: semibold;
+        border: none;
+      "
+      href="{% url 'Login' %}"
+      >Login</a
+    >
     {% endif %}
     <a class="navbar-brand" href="{% url 'Aboutus' %}">Acerca de mi</a>
   </div>
 </nav>
+
+<!-- Banner principal -->
+<header class="masthead">
+  <div class="container position-relative bannerPrincipal">
+    <div class="row justify-content-center">
+      <div class="col-xl-6"></div>
+    </div>
+  </div>
+</header>

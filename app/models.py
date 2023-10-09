@@ -24,7 +24,7 @@ class Servicio(models.Model):
 class Presupuesto(models.Model):
     servicio = models.CharField(max_length=40)
     fechaDeEntrega = models.DateField()
-    entregado = models.BooleanField()
+    entregado = models.BooleanField(default=False)
     cantidad = models.IntegerField()
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     vencido = models.BooleanField(default=False)

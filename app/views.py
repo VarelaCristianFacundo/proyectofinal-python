@@ -8,7 +8,7 @@ from .forms import (
     UserEditForm,
     AvatarFormulario,
 )
-from .models import Presupuesto, Colaborador, AsignacionPresupuesto, Avatar
+from .models import Presupuesto, Colaborador, AsignacionPresupuesto, Avatar, Cliente
 from django.contrib.auth.forms import (
     AuthenticationForm,
     UserCreationForm,
@@ -129,7 +129,7 @@ def register(req):
         return render(req, "registro.html", {"miFormulario": miFormulario})
 
 
-@login_required
+@staff_member_required(login_url="/app/login/")
 def listar_presupuestos(req):
     form = BusquedaPresupuestoForm()
     presupuestos = Presupuesto.objects.all()
@@ -179,31 +179,39 @@ def listar_presupuestos(req):
 def presupuestoFormulario(req):
     url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
-    if req.user.is_authenticated:
-        try:
-            avatar = Avatar.objects.get(user=req.user)
-            url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
-        except ObjectDoesNotExist:
-            pass  # Maneja el caso en que no exista un avatar para el usuario
-        except Avatar.MultipleObjectsReturned:
-            avatars = Avatar.objects.filter(user=req.user)
-            avatar = avatars.first()
-            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
-
     if req.method == "POST":
-        presupuestoFormulario = PresupuestoFormulario(req.POST)
-        if presupuestoFormulario.is_valid():
-            presupuestoFormulario.save()
-            return render(req, "home.html")
+        presupuestoForm = PresupuestoFormulario(req.POST)
+        if presupuestoForm.is_valid():
+            # Obtener la fecha actual
+            fecha_actual = datetime.now().date()
+
+            # Obtener la fecha de entrega ingresada en el formulario
+            fecha_entrega = presupuestoForm.cleaned_data["fechaDeEntrega"]
+
+            # Validar que la fecha de entrega sea posterior a la fecha actual
+            if fecha_entrega < fecha_actual:
+                # Si la fecha es anterior, muestra un mensaje de error
+                presupuestoForm.add_error(
+                    "fechaDeEntrega",
+                    "La fecha de entrega debe ser posterior a la fecha actual.",
+                )
+            else:
+                presupuestoForm.save()
+                return render(req, "home.html")
     else:
-        presupuestoFormulario = (
-            PresupuestoFormulario()
-        )  # Inicializa el formulario sin datos
+        presupuestoForm = PresupuestoFormulario()
+
+    # Obtén la lista de todos los clientes y pásala al contexto
+    clientes = Cliente.objects.all()
 
     return render(
         req,
         "presupuestoFormulario.html",
-        {"presupuestoFormulario": presupuestoFormulario, "url_avatar": url_avatar},
+        {
+            "presupuestoFormulario": presupuestoForm,
+            "url_avatar": url_avatar,
+            "clientes": clientes,
+        },
     )
 
 
@@ -412,7 +420,6 @@ def proyectos_asignados(req):
     )
 
 
-@login_required
 def agregar_cliente(req):
     url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
@@ -504,21 +511,14 @@ def editar_perfil(req):
 @login_required
 def agregar_avatar(req):
     url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
+    avatar = None
 
     if req.user.is_authenticated:
         try:
             avatar = Avatar.objects.get(user=req.user)
             url_avatar = avatar.imagen.url  # Obtiene la URL del avatar
-        except ObjectDoesNotExist:
+        except Avatar.DoesNotExist:
             pass  # Maneja el caso en que no exista un avatar para el usuario
-        except Avatar.MultipleObjectsReturned:
-            avatars = Avatar.objects.filter(user=req.user)
-            avatar = avatars.first()
-            url_avatar = avatar.imagen.url  # Obtiene la URL del primer avatar
-    try:
-        avatar = Avatar.objects.get(user=req.user)
-    except Avatar.DoesNotExist:
-        avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
 
     if req.method == "POST":
         miFormulario = AvatarFormulario(req.POST, req.FILES)
@@ -539,19 +539,20 @@ def agregar_avatar(req):
                 "Home.html",
                 {
                     "mensaje": "Avatar actualizado con éxito!",
-                    "url_avatar": url_avatar,
+                    "url_avatar": avatar.imagen.url,
                 },
             )
     else:
         miFormulario = AvatarFormulario()
-        return render(
-            req,
-            "agregarAvatar.html",
-            {
-                "miFormulario": miFormulario,
-                "url_avatar": url_avatar,
-            },
-        )
+
+    return render(
+        req,
+        "agregarAvatar.html",
+        {
+            "miFormulario": miFormulario,
+            "url_avatar": url_avatar,
+        },
+    )
 
 
 def aboutus(req):

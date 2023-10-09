@@ -39,23 +39,23 @@
   </head>
   <body>
     {% include 'navbar.html' %} {% block contenidoQueCambia %}
-    <!-- Banner principal -->
-    <header class="masthead">
-      <div class="container position-relative bannerPrincipal">
-        <div class="row justify-content-center">
-          <div class="col-xl-6">
-            <div class="text-center text-white">
-              <a
-                href="{% url 'PresupuestoFormulario' %}"
-                class="btn btn-primary btn-lg mt-14"
-                >Solicitar presupuesto</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
+    <div
+      class="text-center text-white d-flex align-items-center justify-content-center gap-4"
+      style="flex-direction: row"
+    >
+      <a
+        href="{% url 'PresupuestoFormulario' %}"
+        class="btn btn-primary btn-lg mt-14"
+        style="background-color: #6f95c5; color: white; font-weight: semibold"
+        >Solicitar presupuesto</a
+      >
+      <a
+        href="{% url 'AgregarCliente' %}"
+        class="btn btn-lg mt-14"
+        style="background-color: #6f95c5; color: white; font-weight: semibold"
+        >Quiero ser cliente</a
+      >
+    </div>
     <!-- Sección de Servicios -->
     <section class="py-5" style="background-color: #ffffff; color: #000000">
       <div class="container">
@@ -90,7 +90,10 @@
                   Traducción, revisión, legalización y maquetación de textos
                   traducidos para particulares, empresas e instituciones.
                 </p>
-                <a href="#" class="btn btn-light mt-auto" style="width: 50%"
+                <a
+                  href="{% url 'PresupuestoFormulario' %}"
+                  class="btn btn-light mt-auto"
+                  style="width: 50%"
                   >Conocer más</a
                 >
               </div>
@@ -116,7 +119,10 @@
                   entornos y eventos comunicativos que involucren dos o más
                   lenguas.
                 </p>
-                <a href="#" class="btn btn-light mt-auto" style="width: 50%"
+                <a
+                  href="{% url 'PresupuestoFormulario' %}"
+                  class="btn btn-light mt-auto"
+                  style="width: 50%"
                   >Conocer más</a
                 >
               </div>
@@ -141,7 +147,10 @@
                   Ofrecemos servicios de transcripción, traducción y subtitulado
                   para cualquier tipo de contenido audiovisual.
                 </p>
-                <a href="#" class="btn btn-light mt-auto" style="width: 50%"
+                <a
+                  href="{% url 'PresupuestoFormulario' %}"
+                  class="btn btn-light mt-auto"
+                  style="width: 50%"
                   >Conocer más</a
                 >
               </div>

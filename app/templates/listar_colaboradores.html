@@ -1,5 +1,4 @@
 {% extends 'home.html' %} {% block contenidoQueCambia %}
-
 <section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
   <div
     class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
@@ -14,7 +13,7 @@
         >
           Listado de Colaboradores Activos
         </h1>
-        <table class="table mr-6 text-center">
+        <table class="table text-center">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -71,7 +70,17 @@
             {% endfor %}
           </select>
           <div class="m-2"></div>
-          <button type="submit">Asignar Presupuesto</button>
+          <button
+            type="submit"
+            class="btn btn-secondary m-2"
+            style="
+              background-color: #6f95c5 !important;
+              color: white;
+              font-weight: bold;
+            "
+          >
+            Asignar Presupuesto
+          </button>
         </form>
       </div>
     </div>

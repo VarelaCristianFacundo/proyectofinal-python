@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 class PresupuestoFormulario(forms.ModelForm):
     class Meta:
         model = Presupuesto
-        fields = ["servicio", "fechaDeEntrega", "cantidad", "entregado", "cliente"]
+        fields = ["servicio", "fechaDeEntrega", "cantidad", "cliente"]
         widgets = {
             "fechaDeEntrega": forms.DateInput(attrs={"type": "date"}),
         }

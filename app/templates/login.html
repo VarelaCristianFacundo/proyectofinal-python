@@ -1,42 +1,67 @@
 {% extends 'home.html' %} {% block contenidoQueCambia %}
-<section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
-  <div
-    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
-    style="width: 50%"
-  >
-    <div
-      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+<section class="py-5" style="background-color: #ffffff; color: #000000">
+  <div class="container">
+    <h2
+      class="text-center mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
     >
-      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-        <h1
-          class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
-        >
-          Sign in to your account
-        </h1>
-        <form action="{% url 'Login' %}" method="post">
-          {% csrf_token %}
-          <div class="mb-4">
-            <label for="{{ miFormulario.username.id_for_label }}"
-              >Username:</label
+      Inicia sesión con tu cuenta
+    </h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card" style="background-color: #6f95c5">
+          <div class="card-body">
+            <h5
+              class="card-title text-center"
+              style="
+                font-family: 'Roboto', sans-serif;
+                font-weight: bold;
+                color: white;
+              "
             >
-            {{ miFormulario.username }}
-          </div>
-          <div class="mb-4">
-            <label for="{{ miFormulario.password.id_for_label }}"
-              >Password:</label
+              Inicia sesión
+            </h5>
+            <form
+              action="{% url 'Login' %}"
+              method="post"
+              style="display: flex; flex-direction: column; align-items: center"
             >
-            {{ miFormulario.password }}
+              {% csrf_token %}
+              <div class="mb-3" style="width: 100%">
+                <label
+                  for="{{ miFormulario.username.id_for_label }}"
+                  style="color: white"
+                  >Username:</label
+                >
+                <div style="width: 100%">{{ miFormulario.username }}</div>
+              </div>
+              <div class="mb-3" style="width: 100%">
+                <label
+                  for="{{ miFormulario.password.id_for_label }}"
+                  style="color: white"
+                  >Password:</label
+                >
+                <div style="width: 100%">{{ miFormulario.password }}</div>
+              </div>
+              <button
+                class="btn btn-light mt-2"
+                type="submit"
+                style="
+                  background-color: white !important;
+                  color: #6f95c5;
+                  font-weight: bold;
+                  width: 100%;
+                "
+              >
+                Iniciar Sesión
+              </button>
+            </form>
+            <a class="register" href="{% url 'Registrar' %}"
+              >No tienes cuenta todavía? Regístrate ahora.</a
+            >
           </div>
-          <button type="submit">Ingresar</button>
-        </form>
-        <a class="register" href="{% url 'Registrar' %}"
-          >¿No tienes una cuenta todavía? Regístrate ahora.</a
-        >
+        </div>
       </div>
     </div>
   </div>
 </section>
-<!-- Agrega el avatar usando la variable url_avatar -->
-{% if url_avatar %}
-<img src="{{ url_avatar }}" alt="avatar" />
-{% endif %} {% endblock contenidoQueCambia %}
+{% endblock contenidoQueCambia %}

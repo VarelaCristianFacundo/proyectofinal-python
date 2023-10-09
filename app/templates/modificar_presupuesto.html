@@ -13,9 +13,20 @@
         >
           Modificar Presupuesto
         </h1>
-        <form method="post" class="text-center flex justify-between">
+        <form method="post" class="text-center">
           {% csrf_token %} {{ form.as_p }}
-          <button type="submit">Guardar Cambios</button>
+          <button
+            class="btn btn-secondary mt-2"
+            type="submit"
+            style="
+              width: 100%;
+              background-color: #6f95c5 !important;
+              color: white;
+              font-weight: bold;
+            "
+          >
+            Guardar Cambios
+          </button>
         </form>
       </div>
     </div>

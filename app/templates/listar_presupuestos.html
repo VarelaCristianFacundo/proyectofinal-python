@@ -15,59 +15,101 @@
         </h1>
         <form method="post" class="text-center">
           {% csrf_token %} {{ form.as_p }}
-          <button type="submit" class="btn btn-primary m-2">Buscar</button>
-          <a href="{% url 'ListarPresupuestos' %}" class="btn btn-secondary"
+          <button
+            type="submit"
+            class="btn btn-secondary m-2"
+            style="
+              background-color: #6f95c5 !important;
+              color: white;
+              font-weight: bold;
+            "
+          >
+            Buscar
+          </button>
+          <a
+            href="{% url 'ListarPresupuestos' %}"
+            class="btn btn-secondary m-2"
+            style="
+              background-color: white;
+              color: #6f95c5;
+              font-weight: bold;
+              border-color: #6f95c5;
+            "
             >Borrar Filtros</a
           >
         </form>
         <hr />
-        <table class="table text-center">
-          <thead>
-            <tr>
-              <th>Servicio</th>
-              <th>Fecha de Entrega</th>
-              <th>Entregado?</th>
-              <th>Cantidad</th>
-              <th>Precio</th>
-              <th>Cliente</th>
-              <th>Vencido</th>
-              <th>Editar</th>
-              <th>Eliminar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for presupuesto in presupuestos %}
-            <tr>
-              <td>{{ presupuesto.servicio }}</td>
-              <td>{{ presupuesto.fechaDeEntrega }}</td>
-              <td>
-                {% if presupuesto.entregado %} SI {% else %} NO {% endif %}
-              </td>
-              <td>{{ presupuesto.cantidad }}</td>
-              <td>{{ presupuesto.precio }}</td>
-              <td>{{ presupuesto.cliente }}</td>
-              <td>{{ presupuesto.vencido|yesno:"Vencido,No Vencido" }}</td>
-
-              <td>
-                <a href="{% url 'ModificarPresupuesto' presupuesto.id %}"
-                  >Editar</a
-                >
-              </td>
-              <td>
-                <a href="{% url 'EliminarPresupuesto' presupuesto.id %}"
-                  >Eliminar</a
-                >
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <a
-          style="display: flex; justify-content: center"
-          href="{% url 'PresupuestoFormulario' %}"
-          >Crear un nuevo presupuesto</a
-        >
+        <div class="table-responsive">
+          <table class="table text-center">
+            <thead>
+              <tr>
+                <th>Servicio</th>
+                <th>Fecha de Entrega</th>
+                <th>Entregado?</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Cliente</th>
+                <th>Vencido</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for presupuesto in presupuestos %}
+              <tr>
+                <td class="align-middle">{{ presupuesto.servicio }}</td>
+                <td class="align-middle">{{ presupuesto.fechaDeEntrega }}</td>
+                <td class="align-middle">
+                  {% if presupuesto.entregado %} SI {% else %} NO {% endif %}
+                </td>
+                <td class="align-middle">{{ presupuesto.cantidad }}</td>
+                <td class="align-middle">{{ presupuesto.precio }}</td>
+                <td class="align-middle">{{ presupuesto.cliente }}</td>
+                <td class="align-middle">
+                  {{ presupuesto.vencido|yesno:"Vencido,No Vencido" }}
+                </td>
+                <td>
+                  <a
+                    href="{% url 'ModificarPresupuesto' presupuesto.id %}"
+                    class="btn btn-secondary m-2"
+                    style="
+                      background-color: #6f95c5 !important;
+                      color: white;
+                      font-weight: bold;
+                    "
+                    >Editar</a
+                  >
+                </td>
+                <td>
+                  <a
+                    href="{% url 'EliminarPresupuesto' presupuesto.id %}"
+                    class="btn btn-secondary m-2"
+                    style="
+                      background-color: white;
+                      color: #6f95c5;
+                      font-weight: bold;
+                      border-color: #6f95c5;
+                    "
+                    >Eliminar</a
+                  >
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="text-center">
+          <a
+            href="{% url 'PresupuestoFormulario' %}"
+            class="btn btn-secondary m-2"
+            style="
+              background-color: #6f95c5 !important;
+              color: white;
+              font-weight: bold;
+            "
+            >Crear un nuevo presupuesto</a
+          >
+        </div>
       </div>
     </div>
   </div>

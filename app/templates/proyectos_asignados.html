@@ -1,57 +1,96 @@
 {% extends 'home.html' %} {% block contenidoQueCambia %}
-<section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
-  <div
-    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
-    style="width: 50%"
-  >
-    <div
-      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+<section class="py-5" style="background-color: #ffffff; color: #000000">
+  <div class="container">
+    <h2
+      class="text-center mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
     >
-      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-        <h1
-          class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center"
-        >
-          Proyectos Asignados
-        </h1>
-        <form method="post" class="text-center">
-          {% csrf_token %}
-          <label for="colaborador">Selecciona un colaborador:</label>
-          <select name="colaborador" id="colaborador">
-            <option value="">Selecciona un colaborador</option>
-            {% for colaborador in colaboradores %}
-            <option value="{{ colaborador.id }}">
-              {{ colaborador.nombre }} {{ colaborador.apellido }}
-            </option>
-            {% endfor %}
-          </select>
-
-          <button type="submit">Mostrar Proyectos Asignados</button>
-        </form>
-        {% if proyectos_asignados %}
-        <h2 class="text-lg font-bold mt-4">Proyectos Asignados:</h2>
-        <table class="table mt-2">
-          <thead>
-            <tr>
-              <th>Servicio</th>
-              <th>Fecha de Entrega</th>
-              <th>Cantidad</th>
-              <th>Cliente</th>
-              <th>Entregado?</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for asignacion in proyectos_asignados %}
-            <tr>
-              <td>{{ asignacion.presupuesto.servicio }}</td>
-              <td>{{ asignacion.presupuesto.fechaDeEntrega }}</td>
-              <td>{{ asignacion.presupuesto.cantidad }}</td>
-              <td>{{ asignacion.presupuesto.cliente }}</td>
-              <td>{{ asignacion.presupuesto.entregado }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        {% endif %}
+      Proyectos Asignados
+    </h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card" style="background-color: #6f95c5">
+          <div class="card-body">
+            <h5
+              class="card-title text-center"
+              style="
+                font-family: 'Roboto', sans-serif;
+                font-weight: bold;
+                color: white;
+              "
+            >
+              Filtrar proyectos asignados
+            </h5>
+            <form method="post">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="colaborador" class="form-label" style="color: white"
+                  >Selecciona un colaborador:</label
+                >
+                <select
+                  name="colaborador"
+                  id="colaborador"
+                  class="form-control"
+                >
+                  <option value="">Selecciona un colaborador</option>
+                  {% for colaborador in colaboradores %}
+                  <option value="{{ colaborador.id }}">
+                    {{ colaborador.nombre }} {{ colaborador.apellido }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <button
+                class="btn btn-light mt-2"
+                type="submit"
+                style="
+                  background-color: white !important;
+                  color: #6f95c5;
+                  font-weight: bold;
+                  width: 100%;
+                "
+              >
+                Mostrar Proyectos Asignados
+              </button>
+            </form>
+            {% if proyectos_asignados %}
+            <h2 class="text-lg font-bold mt-4" style="color: white">
+              Proyectos Asignados:
+            </h2>
+            <table class="table mt-2">
+              <thead>
+                <tr>
+                  <th style="color: white">Servicio</th>
+                  <th style="color: white">Fecha de Entrega</th>
+                  <th style="color: white">Cantidad</th>
+                  <th style="color: white">Cliente</th>
+                  <th style="color: white">Entregado?</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for asignacion in proyectos_asignados %}
+                <tr>
+                  <td style="color: white">
+                    {{ asignacion.presupuesto.servicio }}
+                  </td>
+                  <td style="color: white">
+                    {{ asignacion.presupuesto.fechaDeEntrega }}
+                  </td>
+                  <td style="color: white">
+                    {{ asignacion.presupuesto.cantidad }}
+                  </td>
+                  <td style="color: white">
+                    {{ asignacion.presupuesto.cliente }}
+                  </td>
+                  <td style="color: white">
+                    {{ asignacion.presupuesto.entregado }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </div>
   </div>

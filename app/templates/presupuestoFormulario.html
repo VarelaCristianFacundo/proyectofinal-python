@@ -1,28 +1,104 @@
 {% extends 'home.html' %} {% block contenidoQueCambia %}
-<section class="bg-gray-50 dark:bg-gray-900 py-5 flex">
-  <div
-    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
-    style="width: 50%"
-  >
-    <div
-      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+<section class="py-5" style="background-color: #ffffff; color: #000000">
+  <div class="container">
+    <h2
+      class="text-center mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
     >
-      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-        <h1
-          class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
-        >
-          Crea un presupuesto
-        </h1>
-        <form
-          action="{% url 'PresupuestoFormulario' %}"
-          method="post"
-          style="display: flex; flex-direction: column"
-        >
-          {% csrf_token %}
-          <br />
-          {{presupuestoFormulario.as_p}}
-          <button class="mt-2" type="submit">Enviar</button>
-        </form>
+      Crea un presupuesto
+    </h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card" style="background-color: #6f95c5">
+          <div class="card-body">
+            <h5
+              class="card-title text-center"
+              style="
+                font-family: 'Roboto', sans-serif;
+                font-weight: bold;
+                color: white;
+              "
+            >
+              Datos del presupuesto
+            </h5>
+            <form
+              action="{% url 'PresupuestoFormulario' %}"
+              method="post"
+              style="display: flex; flex-direction: column"
+            >
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="servicio" class="form-label" style="color: white"
+                  >Servicio:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="servicio"
+                  id="servicio"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label
+                  for="fechaDeEntrega"
+                  class="form-label"
+                  style="color: white"
+                  >Fecha de Entrega:</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  name="fechaDeEntrega"
+                  id="fechaDeEntrega"
+                  required
+                />
+                <!-- Mostrar errores del campo fechaDeEntrega -->
+                {{ presupuestoFormulario.fechaDeEntrega.errors }}
+              </div>
+              <div class="mb-3">
+                <label for="cantidad" class="form-label" style="color: white"
+                  >Cantidad:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="cantidad"
+                  id="cantidad"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="cliente" class="form-label" style="color: white"
+                  >Cliente:</label
+                >
+                <select
+                  class="form-select"
+                  name="cliente"
+                  id="cliente"
+                  required
+                >
+                  <option value="" disabled selected>
+                    Selecciona un cliente
+                  </option>
+                  {% for cliente in clientes %}
+                  <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <button
+                class="btn btn-light mt-2"
+                type="submit"
+                style="
+                  background-color: white !important;
+                  color: #6f95c5;
+                  font-weight: bold;
+                "
+              >
+                Enviar
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
