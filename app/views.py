@@ -330,6 +330,7 @@ def listar_colaboradores(req):
 @login_required
 def agregar_colaborador(req):
     url_avatar = "https://www.researchgate.net/profile/Maria-Monreal/publication/315108532/figure/fig1/AS:472492935520261@1489662502634/Figura-2-Avatar-que-aparece-por-defecto-en-Facebook.png"
+    colaboradorForm = ColaboradorFormulario()  # Definir el formulario aquí
 
     if req.user.is_authenticated:
         try:
